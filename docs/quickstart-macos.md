@@ -8,7 +8,7 @@
   - [1. Get the node image](#1-get-the-node-image)
   - [2. Build the Anvil image](#2-build-the-anvil-image)
   - [3. Start Anvil](#3-start-anvil)
-  - [4. Build the echo machine](#4-build-the-echo-machine)
+  - [4. Get the echo machine](#4-get-the-echo-machine)
   - [5. Deploy the echo application](#5-deploy-the-echo-application)
   - [6. Start the sling node](#6-start-the-sling-node)
   - [A different machine](#a-different-machine)
@@ -45,7 +45,7 @@ You need:
 
 Leave ports `8545`, `5433`, `10000`, `10011`, and `10012` free.
 
-Clone this repo next to a [dave](https://github.com/cartesi/dave) checkout at `v3.0.0-alpha.5`. Compose defaults to `../../dave/test/programs/echo/machine-image-rootfs` from `sling/` and `reference/`. That directory is not in the dave git tree. Build it in [step 4](#4-build-the-echo-machine). You do not need dave submodules, `just`, or a compiled emulator.
+You do not need a dave checkout. The echo machine is a [release tarball](https://github.com/riseandshaheen/prt-dev-stack/releases/tag/echo-c8217d7f). Compose defaults to `../echo/machine-image-rootfs` from `sling/` and `reference/`. Download it in [step 4](#4-get-the-echo-machine).
 
 Nothing here compiles the emulator or the Rust node.
 
@@ -85,48 +85,17 @@ Anvil keeps historical state (`--preserve-historical-states`). The reference nod
 
 Wait until the container is healthy. It listens on port 8545, chain id `31337`.
 
-### 4. Build the echo machine
+### 4. Get the echo machine
 
-Cloning dave does not give you the machine. `just build-echo` writes `test/programs/echo/machine-image`. This stack mounts `machine-image-rootfs`. Build that directory with the published Cartesi Machine `0.21.0` package. Do not use Homebrew `cartesi-machine` 0.20.
-
-From the parent of this repo:
+The stored machine is not in git. From `echo/`:
 
 ```sh
-git clone --branch v3.0.0-alpha.5 --depth 1 https://github.com/cartesi/dave.git
+curl -L -o echo-machine-image-rootfs-c8217d7f.tar.gz \
+  https://github.com/riseandshaheen/prt-dev-stack/releases/download/echo-c8217d7f/echo-machine-image-rootfs-c8217d7f.tar.gz
+tar -xzf echo-machine-image-rootfs-c8217d7f.tar.gz
 ```
 
-Download the pinned kernel and guest rootfs into `dave/test/programs/`:
-
-```sh
-cd dave/test/programs
-curl -L -o linux.bin \
-  https://github.com/cartesi/image-kernel/releases/download/v0.21.0/linux-6.5.13-ctsi-2-v0.21.0.bin
-curl -L -o rootfs.ext2 \
-  https://github.com/cartesi/machine-emulator-tools/releases/download/v0.18.0/rootfs-tools.ext2
-```
-
-`rootfs.ext2` is about 350 MB.
-
-Build and store the echo image with the Linux emulator package. From the same `dave/test/programs/` directory:
-
-```sh
-curl -L -o /tmp/machine-emulator.deb \
-  https://github.com/cartesi/machine-emulator/releases/download/v0.21.0/machine-emulator_arm64.deb
-
-docker run --rm \
-  -v "$PWD":/work \
-  -v /tmp/machine-emulator.deb:/tmp/machine-emulator.deb:ro \
-  debian:trixie-slim \
-  bash -lc 'apt-get update && apt-get install -y /tmp/machine-emulator.deb &&
-    cd /work &&
-    rm -rf echo/machine-image-rootfs &&
-    cartesi-machine --ram-image=./linux.bin --final-hash \
-      --flash-drive=label:root,data_filename:./rootfs.ext2 \
-      --revert-mode=none --store=./echo/machine-image-rootfs -- \
-      "ioctl-echo-loop --vouchers=1 --notices=1 --reports=1 --verbose=1 --reject=2"'
-```
-
-The stored hash must be `0xc8217d7fa39a7a4ba65e5efacb1cfca9996dd76ceea945299fea9f4f2786f3b2`. If it is not, stop. The deploy below is locked to that hash.
+That writes `echo/machine-image-rootfs/`. The archive is about 121 MB. It was stored with Cartesi Machine `0.21.0` from the published kernel v0.21.0 and guest tools rootfs v0.18.0. Template hash `0xc8217d7fa39a7a4ba65e5efacb1cfca9996dd76ceea945299fea9f4f2786f3b2`. The deploy below is locked to that hash.
 
 ### 5. Deploy the echo application
 
@@ -194,7 +163,7 @@ The Docker build needs several gigabytes free. It includes machine emulator `0.2
 
 ### 1. Clone and build the image
 
-From the parent of this repo (next to `dave` and `prt-dev-stack`):
+From the parent of this repo:
 
 ```sh
 git clone --branch feature/contracts-bump https://github.com/cartesi/rollups-node.git

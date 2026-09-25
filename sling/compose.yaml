@@ -6,7 +6,7 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     volumes:
-      - ${MACHINE_PATH:-../../dave/test/programs/echo/machine-image-rootfs}:/machine:ro
+      - ${MACHINE_PATH:-../echo/machine-image-rootfs}:/machine:ro
       - sling-state:/state
     command:
       - --app-address

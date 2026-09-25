@@ -57,7 +57,7 @@ services:
         condition: service_completed_successfully
     volumes:
       - node_data:/var/lib/cartesi-rollups-node/data
-      - ${MACHINE_PATH:-../../dave/test/programs/echo/machine-image-rootfs}:/machine:ro
+      - ${MACHINE_PATH:-../echo/machine-image-rootfs}:/machine:ro
     networks: [shared]
     ports:
       - "10000:10000"

@@ -8,4 +8,6 @@ docker pull ghcr.io/riseandshaheen/sling-node:3.0.0-alpha.5
 
 The sling image stays named `sling-node`. Build it from this repo with `docker build -f image/Dockerfile`. Build Anvil with `docker build -t sling-anvil:1.4.3 anvil`.
 
+The echo machine is a [release tarball](https://github.com/riseandshaheen/prt-dev-stack/releases/tag/echo-c8217d7f), not a dave clone. See [echo/README.md](echo/README.md).
+
 Walkthrough: [docs/quickstart-macos.md](docs/quickstart-macos.md).
