@@ -1,0 +1,27 @@
+name: prt-anvil
+
+services:
+  anvil:
+    image: sling-anvil:1.4.3
+    entrypoint: ["anvil"]
+    command:
+      - --host
+      - 0.0.0.0
+      - --port
+      - "8545"
+      - --slots-in-an-epoch
+      - "1"
+      - -a
+      - "40"
+      - --load-state
+      - /state.json
+      - --preserve-historical-states
+    volumes:
+      - ./state.json:/state.json:ro
+    ports:
+      - "8545:8545"
+    healthcheck:
+      test: ["CMD", "cast", "chain-id", "--rpc-url", "http://127.0.0.1:8545"]
+      interval: 2s
+      timeout: 3s
+      retries: 20

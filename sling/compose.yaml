@@ -1,0 +1,29 @@
+name: prt-sling
+
+services:
+  node:
+    image: ghcr.io/riseandshaheen/sling-node:3.0.0-alpha.5
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ${MACHINE_PATH:-../../dave/test/programs/echo/machine-image-rootfs}:/machine:ro
+      - sling-state:/state
+    command:
+      - --app-address
+      - ${APP_ADDRESS:-0x6c2E2F9665b8f941aA8D94ea3f0287F7884a6146}
+      - --machine-path
+      - /machine
+      - --web3-rpc-url
+      - http://host.docker.internal:8545
+      - --web3-chain-id
+      - "31337"
+      - --state-dir
+      - /state
+      - --sleep-duration-seconds
+      - "5"
+      - pk
+      - --web3-private-key
+      - ${PRIVATE_KEY:-0x4bbbf85ce3377467afe5d46f804f221813b2bb87f24d81f60f1fcdbf7cbf4356}
+
+volumes:
+  sling-state:

@@ -1,0 +1,161 @@
+# Run sling and the rollups reference node on macOS
+
+## Index
+
+- [Purpose](#purpose)
+- [Sling node](#sling-node)
+  - [1. Get the node image](#1-get-the-node-image)
+  - [2. Start Anvil](#2-start-anvil)
+  - [3. Deploy the echo application](#3-deploy-the-echo-application)
+  - [4. Start the sling node](#4-start-the-sling-node)
+  - [A different machine](#a-different-machine)
+- [Reference node](#reference-node)
+  - [1. Build the image](#1-build-the-image)
+  - [2. Start the node](#2-start-the-node)
+  - [3. Register the same application](#3-register-the-same-application)
+- [After an input](#after-an-input)
+
+## Purpose
+
+This checkout is for running both nodes against one application on one Anvil.
+
+The chain is the Dave v3 devnet in `anvil/state.json`. One echo application is deployed on it. Sling (`cartesi-rollups-prt-node` from dave `v3.0.0-alpha.5`) and the rollups reference node both attach to that Anvil. They do not start a second chain.
+
+Sling recomputes the machine and can play a tournament. The reference node reads inputs, runs the machine, serves JSON-RPC, and can join, stage, and accept. It does not play bisection moves.
+
+Split the keys. Sling uses Anvil account 7. The reference node sends claims from account 0 and PRT transactions from account 6. Send inputs from another account, such as account 1. Sharing any of those keys collides nonces.
+
+You need Docker Desktop and `cast`. Clone this repo next to a [dave](https://github.com/cartesi/dave) checkout. Compose defaults to `../../dave/test/programs/echo/machine-image-rootfs` from `sling/` and `reference/`. The sling image is public and built for Apple Silicon. Nothing here compiles the emulator or the Rust node.
+
+## Sling node
+
+Use Docker. Pull the published node image for dave `v3.0.0-alpha.5`.
+
+### 1. Get the node image
+
+```sh
+docker pull ghcr.io/riseandshaheen/sling-node:3.0.0-alpha.5
+```
+
+### 2. Start Anvil
+
+From `anvil/`:
+
+```sh
+docker compose up -d
+```
+
+This needs a local image named `sling-anvil:1.4.3`. It runs Foundry Anvil 1.4.3 and loads `state.json`. That dump matches Anvil 1.4.3. A newer Anvil will not load it.
+
+The dump is the devnet before the echo application exists. Restarting this container reloads that file and drops every later transaction, including the application from the next step. Deploy again after a restart.
+
+Anvil keeps historical state (`--preserve-historical-states`). The reference node needs that in order to find the application.
+
+Wait until the container is healthy. It listens on port 8545, chain id `31337`.
+
+### 3. Deploy the echo application
+
+The machine image for this checkout is `dave/test/programs/echo/machine-image-rootfs`. Its template hash is `0xc8217d7fa39a7a4ba65e5efacb1cfca9996dd76ceea945299fea9f4f2786f3b2`.
+
+Deploy it with Anvil account 0. The sling signer is account 7 (`0x14dC79964da2C08b23698B3D3cc7Ca32193d9955`), and that account is the only sentry. The salt is zero, so the application address is `0x6c2E2F9665b8f941aA8D94ea3f0287F7884a6146`.
+
+```sh
+cast send --rpc-url http://127.0.0.1:8545 \
+  --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 \
+  0xd34BEC37Fa5816ABA2f87BdaD2E13dd1B161370f \
+  "newDaveApp(bytes32,uint256,address,address[],(address,uint8,uint8,uint64,address),bytes32)" \
+  0xc8217d7fa39a7a4ba65e5efacb1cfca9996dd76ceea945299fea9f4f2786f3b2 \
+  1000 \
+  0x0000000000000000000000000000000000000000 \
+  "[0x14dC79964da2C08b23698B3D3cc7Ca32193d9955]" \
+  "(0x0000000000000000000000000000000000000000,0,0,0,0x0000000000000000000000000000000000000000)" \
+  0x0000000000000000000000000000000000000000000000000000000000000000
+```
+
+Send later inputs from a different account than 0, 6, or 7. Account 0 is the reference-node claimer, account 6 is its PRT signer, and account 7 belongs to sling.
+
+### 4. Start the sling node
+
+From `sling/`:
+
+```sh
+docker compose up -d
+```
+
+Compose already points this image at the echo machine, the application above, and Anvil account 7. The node talks to Anvil at `http://host.docker.internal:8545` and stores its database in the `sling-state` volume.
+
+### A different machine
+
+Change the template hash in the deploy and pass that image and the new application address:
+
+```sh
+cast send --rpc-url http://127.0.0.1:8545 \
+  --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 \
+  0xd34BEC37Fa5816ABA2f87BdaD2E13dd1B161370f \
+  "newDaveApp(bytes32,uint256,address,address[],(address,uint8,uint8,uint64,address),bytes32)" \
+  0x1111111111111111111111111111111111111111111111111111111111111111 \
+  1000 \
+  0x0000000000000000000000000000000000000000 \
+  "[0x14dC79964da2C08b23698B3D3cc7Ca32193d9955]" \
+  "(0x0000000000000000000000000000000000000000,0,0,0,0x0000000000000000000000000000000000000000)" \
+  0x0000000000000000000000000000000000000001
+```
+
+From `sling/`:
+
+```sh
+MACHINE_PATH=../path/to/your-machine \
+APP_ADDRESS=0xYourApp \
+docker compose up -d
+```
+
+`0x1111…1111` stands in for that machine's template hash. The salt is `1`, so the application address is not the echo address. Read `0xYourApp` from the `DaveAppCreated` log. The sentry stays Anvil account 7 unless you also change `PRIVATE_KEY`.
+
+## Reference node
+
+This is not an official rollups-node release. There is no published image that speaks Dave `v3` and rollups-contracts `v3.0.0-alpha.10`. The steps below build [cartesi/rollups-node](https://github.com/cartesi/rollups-node) from `feature/contracts-bump` ([PR 798](https://github.com/cartesi/rollups-node/pull/798)). That branch is generated from rollups-contracts `v3.0.0-alpha.10` and Dave contracts `v3.0.0-alpha.4`. Dave `v3.0.0-alpha.5` did not change those contracts, so this image can share the Anvil already running above.
+
+Do not start the `ethereum_provider` / `devnet` service that ships with that repository. Point this node at the Anvil on port 8545.
+
+### 1. Build the image
+
+From a checkout of `feature/contracts-bump`:
+
+```sh
+docker build --target rollups-node -t cartesi/rollups-node:v3-bump .
+```
+
+The image includes machine emulator `0.21.0`. Mount the same echo image sling uses.
+
+### 2. Start the node
+
+From `reference/`. Compose starts Postgres on host port 5433 and the node on `10011`. It reads Anvil at `http://host.docker.internal:8545`.
+
+```sh
+docker compose up -d
+```
+
+Claims use Anvil account 0. PRT transactions use account 6.
+
+### 3. Register the same application
+
+The application lives on the chain. `app register` only writes it into this node's Postgres.
+
+```sh
+docker compose exec node cartesi-rollups-cli app register \
+  --address 0x6c2E2F9665b8f941aA8D94ea3f0287F7884a6146 \
+  --template-path /machine \
+  --prt \
+  --name echo \
+  --print-json
+```
+
+For a different application, pass that address and mount its machine at `/machine`.
+
+JSON-RPC is [http://127.0.0.1:10011](http://127.0.0.1:10011). Inspect is on port `10012`.
+
+## After an input
+
+Both nodes only read finalized blocks. On this Anvil that is two blocks behind the head, so after an input, mine two extra blocks or neither node will see it.
+
+A new epoch opens only after the previous tournament is accepted. An uncontested join still has to wait out the tournament clock (about 300 blocks here) before the result can be staged.
