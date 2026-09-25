@@ -11,6 +11,7 @@
 - [6. Register the same application](#6-register-the-same-application)
 - [A different machine](#a-different-machine)
 - [After an input](#after-an-input)
+- [Troubleshoot](#troubleshoot)
 
 ## Prerequisites
 
@@ -81,6 +82,8 @@ Claims use Anvil account 0. PRT transactions use account 6.
 
 The application lives on the chain. `app register` only writes it into this node's Postgres.
 
+From `reference/`:
+
 ```sh
 docker compose exec node cartesi-rollups-cli app register \
   --address 0x6c2E2F9665b8f941aA8D94ea3f0287F7884a6146 \
@@ -90,9 +93,11 @@ docker compose exec node cartesi-rollups-cli app register \
   --print-json
 ```
 
+The JSON has `"name":"echo"` and `"status":"OK"`. Anvil is healthy. Sling logs `Hello from PRT Rollup Node!`. From the same directory, `docker compose exec node cartesi-rollups-cli app list` shows that application.
+
 For a different application, pass that address and mount its machine at `/machine`.
 
-JSON-RPC is [http://127.0.0.1:10011](http://127.0.0.1:10011). Inspect is on port `10012`.
+JSON-RPC is [http://127.0.0.1:10011/rpc](http://127.0.0.1:10011/rpc). Inspect is on port `10012`.
 
 ## A different machine
 
@@ -127,3 +132,13 @@ docker compose up -d
 Both nodes only read finalized blocks. On this Anvil that is two blocks behind the head, so after an input, mine two extra blocks or neither node will see it.
 
 A new epoch opens only after the previous tournament is accepted. An uncontested join still has to wait out the tournament clock (about 300 blocks here) before the result can be staged.
+
+## Troubleshoot
+
+Mine two blocks after first boot, not only after an input. The dump starts at block 25. Anvil does not mine on its own. Both nodes read finalized blocks, two behind the head, so they ask for block 23, which the dump does not have. The reference node stays unhealthy (`BlockOutOfRangeError`) until you mine two blocks:
+
+```sh
+docker compose -f anvil/compose.yaml exec anvil cast rpc anvil_mine 2
+```
+
+Then the reference container is healthy and sling starts an epoch.
