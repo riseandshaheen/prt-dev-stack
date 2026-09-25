@@ -2,7 +2,6 @@
 
 ## Index
 
-- [Purpose](#purpose)
 - [Prerequisites](#prerequisites)
 - [1. Pull the images](#1-pull-the-images)
 - [2. Get the echo machine](#2-get-the-echo-machine)
@@ -13,26 +12,12 @@
 - [A different machine](#a-different-machine)
 - [After an input](#after-an-input)
 
-## Purpose
-
-This checkout is for running both nodes against one application on one Anvil.
-
-The chain is the Dave v3 devnet in `anvil/state.json`, with the echo application already deployed. Sling (`cartesi-rollups-prt-node` from dave `v3.0.0-alpha.5`) and the rollups reference node both attach to that Anvil. They do not start a second chain.
-
-Sling recomputes the machine and can play a tournament. The reference node reads inputs, runs the machine, serves JSON-RPC, and can join, stage, and accept. It does not play bisection moves.
-
-Split the keys. Sling uses Anvil account 7. The reference node sends claims from account 0 and PRT transactions from account 6. Send inputs from another account, such as account 1. Sharing any of those keys collides nonces.
-
-The echo application is `0x6c2E2F9665b8f941aA8D94ea3f0287F7884a6146`. Its template hash is `0xc8217d7fa39a7a4ba65e5efacb1cfca9996dd76ceea945299fea9f4f2786f3b2`. The sling signer `0x14dC79964da2C08b23698B3D3cc7Ca32193d9955` is the only sentry.
-
 ## Prerequisites
 
 You need:
 
 - Apple Silicon. The published images are `linux/arm64` only.
 - [Docker Desktop](https://docs.docker.com/desktop/setup/install/mac-install/).
-
-Leave ports `8545`, `5433`, `10000`, `10011`, and `10012` free.
 
 You do not need Foundry, dave, or a rollups-node checkout. Nothing here compiles the emulator or the Rust node.
 
