@@ -6,6 +6,6 @@ Sling (`cartesi-rollups-prt-node` from dave `v3.0.0-alpha.5`) and the rollups re
 docker pull ghcr.io/riseandshaheen/sling-node:3.0.0-alpha.5
 ```
 
-The sling image stays named `sling-node`. Build it from this repo with `docker build -f image/Dockerfile`.
+The sling image stays named `sling-node`. Build it from this repo with `docker build -f image/Dockerfile`. Build Anvil with `docker build -t sling-anvil:1.4.3 anvil`.
 
 Walkthrough: [docs/quickstart-macos.md](docs/quickstart-macos.md).
