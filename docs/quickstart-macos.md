@@ -41,12 +41,12 @@ You do not need Foundry, dave, or a rollups-node checkout. Nothing here compiles
 ```sh
 docker pull ghcr.io/riseandshaheen/sling-node:3.0.0-alpha.5
 docker pull ghcr.io/riseandshaheen/sling-anvil:1.4.3
-docker pull ghcr.io/riseandshaheen/rollups-node:v3-bump
+docker pull ghcr.io/riseandshaheen/rollups-node:test-contracts-bump
 ```
 
 `sling-anvil:1.4.3` is Foundry Anvil 1.4.3. `state.json` was written by that version. A newer Anvil will not load it.
 
-`rollups-node:v3-bump` is not an official Cartesi release. It is a snapshot of [cartesi/rollups-node](https://github.com/cartesi/rollups-node) `feature/contracts-bump` at `0baf78f4` ([PR 798](https://github.com/cartesi/rollups-node/pull/798)), generated from rollups-contracts `v3.0.0-alpha.10` and Dave contracts `v3.0.0-alpha.4`. Dave `v3.0.0-alpha.5` did not change those contracts. The same image is also tagged `0baf78f4`.
+`rollups-node:test-contracts-bump` is not an official Cartesi release. It is a snapshot of [cartesi/rollups-node](https://github.com/cartesi/rollups-node) `feature/contracts-bump` ([PR 798](https://github.com/cartesi/rollups-node/pull/798)), generated from rollups-contracts `v3.0.0-alpha.10` and Dave contracts `v3.0.0-alpha.4`. Dave `v3.0.0-alpha.5` did not change those contracts.
 
 ## 2. Get the echo machine
 
