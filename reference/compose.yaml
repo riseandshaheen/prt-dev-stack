@@ -35,7 +35,7 @@ services:
       POSTGRES_DB: rollupsdb
 
   migration:
-    image: cartesi/rollups-node:v3-bump
+    image: ghcr.io/riseandshaheen/rollups-node:v3-bump
     command: cartesi-rollups-cli db init
     depends_on:
       database:
@@ -47,7 +47,7 @@ services:
       <<: *env
 
   node:
-    image: cartesi/rollups-node:v3-bump
+    image: ghcr.io/riseandshaheen/rollups-node:v3-bump
     init: true
     command: cartesi-rollups-node
     extra_hosts:

@@ -2,7 +2,7 @@ name: prt-anvil
 
 services:
   anvil:
-    image: sling-anvil:1.4.3
+    image: ghcr.io/riseandshaheen/sling-anvil:1.4.3
     entrypoint: ["anvil"]
     command:
       - --host
