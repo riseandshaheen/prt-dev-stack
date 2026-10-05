@@ -11,6 +11,7 @@
 - [6. Register the same application](#6-register-the-same-application)
 - [A different machine](#a-different-machine)
 - [After an input](#after-an-input)
+- [Watch it](#watch-it)
 - [Troubleshoot](#troubleshoot)
 
 ## Prerequisites
@@ -27,12 +28,12 @@ You do not need Foundry, dave, or a rollups-node checkout. Nothing here compiles
 ```sh
 docker pull ghcr.io/riseandshaheen/sling-node:3.0.0-alpha.5
 docker pull ghcr.io/riseandshaheen/sling-anvil:1.4.3
-docker pull ghcr.io/riseandshaheen/rollups-node:test-contracts-bump
+docker pull ghcr.io/riseandshaheen/rollups-node:2.0.0-alpha.13
 ```
 
 `sling-anvil:1.4.3` is Foundry Anvil 1.4.3. `state.json` was written by that version. A newer Anvil will not load it.
 
-`rollups-node:test-contracts-bump` is not an official Cartesi release. It is a snapshot of [cartesi/rollups-node](https://github.com/cartesi/rollups-node) `feature/contracts-bump` ([PR 798](https://github.com/cartesi/rollups-node/pull/798)), generated from rollups-contracts `v3.0.0-alpha.10` and Dave contracts `v3.0.0-alpha.4`. Dave `v3.0.0-alpha.5` did not change those contracts.
+`rollups-node:2.0.0-alpha.13` packages the official [rollups-node v2.0.0-alpha.13](https://github.com/cartesi/rollups-node/releases/tag/v2.0.0-alpha.13) release. That release publishes `.deb` packages, not a container tag. It is built from rollups-contracts `v3.0.0-alpha.10` and Dave contracts `v3.0.0-alpha.5`. Dave `v3.0.0-alpha.5` did not change those contracts, and the devnet addresses in `reference/compose.yaml` are unchanged.
 
 ## 2. Get the echo machine
 
@@ -75,6 +76,8 @@ From `reference/`. Compose starts Postgres on host port 5433 and the node on `10
 ```sh
 docker compose up -d
 ```
+
+Alpha.13 adds `INVALID_OUTPUTS_ROOT` to the initial schema, and that migration does not re-run on an existing database. Replace Postgres only when Anvil can still serve the Dave consensus deployment block. On a long-running Anvil the early state falls out of the historical window, and the reference database is the only copy of the epochs already walked. `docker compose down -v` from `reference/` drops that database and the node data volume. It does not touch Anvil or sling.
 
 Claims use Anvil account 0. PRT transactions use account 6.
 
@@ -132,6 +135,18 @@ docker compose up -d
 Both nodes only read finalized blocks. On this Anvil that is two blocks behind the head, so after an input, mine two extra blocks or neither node will see it.
 
 A new epoch opens only after the previous tournament is accepted. An uncontested join still has to wait out the tournament clock (about 300 blocks here) before the result can be staged.
+
+## Watch it
+
+The visualiser lives in the sibling `visualiser` directory. It is a separate process. It reads sling's SQLite, the Anvil contracts, and the reference node's JSON-RPC at port `10011`. If port 8787 is already taken, the page is already running.
+
+From `visualiser/`:
+
+```sh
+SLING_NODE_CONTAINER=prt-sling-node-1 python3 server.py
+```
+
+Open [http://127.0.0.1:8787](http://127.0.0.1:8787) for sling, [http://127.0.0.1:8787/reference](http://127.0.0.1:8787/reference) for listed applications, inputs, and tournaments, and [http://127.0.0.1:8787/dispute](http://127.0.0.1:8787/dispute) for the dispute view.
 
 ## Troubleshoot
 

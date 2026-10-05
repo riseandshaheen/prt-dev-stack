@@ -5,10 +5,10 @@ Sling (`cartesi-rollups-prt-node` from dave `v3.0.0-alpha.5`) and the rollups re
 ```sh
 docker pull ghcr.io/riseandshaheen/sling-node:3.0.0-alpha.5
 docker pull ghcr.io/riseandshaheen/sling-anvil:1.4.3
-docker pull ghcr.io/riseandshaheen/rollups-node:test-contracts-bump
+docker pull ghcr.io/riseandshaheen/rollups-node:2.0.0-alpha.13
 ```
 
-The sling image stays named `sling-node`. `rollups-node:test-contracts-bump` is an unofficial snapshot of `feature/contracts-bump`, not a Cartesi release.
+The sling image stays named `sling-node`. `rollups-node:2.0.0-alpha.13` packages the official [rollups-node v2.0.0-alpha.13](https://github.com/cartesi/rollups-node/releases/tag/v2.0.0-alpha.13) release. That release publishes `.deb` packages, not a container tag.
 
 The echo machine is a [release tarball](https://github.com/riseandshaheen/prt-dev-stack/releases/tag/echo-c8217d7f), not a dave clone. See [echo/README.md](echo/README.md).
 
