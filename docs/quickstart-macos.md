@@ -138,15 +138,15 @@ A new epoch opens only after the previous tournament is accepted. An uncontested
 
 ## Watch it
 
-The visualiser lives in the sibling `visualiser` directory. It is a separate process. It reads sling's SQLite, the Anvil contracts, and the reference node's JSON-RPC at port `10011`. If port 8787 is already taken, the page is already running.
+The visualiser in [`visualiser/`](../visualiser/README.md) is a separate process. It reads the Anvil contracts, sling's SQLite and the reference node's JSON-RPC at port `10011`, and shows whether they agree and what each dispute is doing. If port 8787 is already taken, the page is already running.
 
-From `visualiser/`:
+From the repository root:
 
 ```sh
-SLING_NODE_CONTAINER=prt-sling-node-1 python3 server.py
+python3 visualiser/server.py
 ```
 
-Open [http://127.0.0.1:8787](http://127.0.0.1:8787) for sling, [http://127.0.0.1:8787/reference](http://127.0.0.1:8787/reference) for listed applications, inputs, and tournaments, and [http://127.0.0.1:8787/dispute](http://127.0.0.1:8787/dispute) for the dispute view.
+Open [http://127.0.0.1:8787](http://127.0.0.1:8787). On macOS the host reads sling's database with `docker cp`; to run it as a service inside the stack instead, see the visualiser README.
 
 ## Troubleshoot
 

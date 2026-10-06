@@ -1,0 +1,33 @@
+name: prt-visualiser
+
+# Start after the anvil, sling and reference stacks are up:
+#   docker compose -f visualiser/compose.yaml up -d --build
+# Then open http://<this machine>:8787. Other testers on the network can open the same address.
+
+services:
+  visualiser:
+    build: .
+    image: prt-visualiser:local
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "${VIS_PORT:-8787}:8787"
+    volumes:
+      # Sling's state. The database connection is opened read-only (SQLite mode=ro),
+      # so the visualiser cannot change it. The volume itself is mounted writable
+      # because SQLite's WAL readers must update the -shm index file to lock safely.
+      - sling-state:/state/sling
+    # Sling's files are owned by root inside its volume; the -shm file needs this user to write.
+    user: "0:0"
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  sling-state:
+    external: true
+    name: prt-sling_sling-state

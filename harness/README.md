@@ -13,7 +13,7 @@ python3 harness/run.py                            # every scenario, in catalog o
 python3 harness/run.py g0_golden c4_forged_sentry # some of them
 ```
 
-Python 3.10 or later, with nothing to install. The harness reads chain, sling and reference-node state through the PRT stack visualiser's `vis` package, which is not in this repository yet: set `VIS_DIR` to the directory that contains `vis/` (it also looks in `../visualiser` and `../../visualiser/visualiser-by-claude`).
+Python 3.10 or later, with nothing to install. The harness reads chain, sling and reference-node state through the visualiser's `vis` package in [`../visualiser`](../visualiser/README.md), so the harness and the UI share one model. Set `VIS_DIR` only if you keep the visualiser elsewhere.
 
 Environment: `HARNESS_FAST=0` restores the fixed-step clock (the default jumps to the next deadline whenever nothing is pending and no match is live); `HARNESS_NODES=sling` watches only the sling, for runs with the reference node stopped.
 

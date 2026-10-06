@@ -1,0 +1,28 @@
+{
+  "listen": { "host": "0.0.0.0", "port": 8787 },
+  "chain": {
+    "rpc": "http://host.docker.internal:8545",
+    "poll_seconds": 3,
+    "dave_app_factory": "0xd34BEC37Fa5816ABA2f87BdaD2E13dd1B161370f"
+  },
+  "nodes": [
+    {
+      "id": "sling",
+      "kind": "sling",
+      "label": "Sling",
+      "db": "/state/sling/db.sqlite3",
+      "accounts": ["0x14dC79964da2C08b23698B3D3cc7Ca32193d9955"]
+    },
+    {
+      "id": "reference",
+      "kind": "reference",
+      "label": "Reference node",
+      "rpc": "http://host.docker.internal:10011/rpc",
+      "accounts": [
+        "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        "0x976EA74026E726554dB657fA54763abd0C3a0aa9"
+      ]
+    }
+  ],
+  "labels": {}
+}

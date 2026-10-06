@@ -1,0 +1,1617 @@
+{
+ "errors": {
+  "0x01f89e1a": {
+   "inputs": [
+    {
+     "name": "appContract",
+     "type": "address"
+    }
+   ],
+   "name": "ApplicationForeclosed",
+   "signature": "ApplicationForeclosed(address)"
+  },
+  "0x03c5d450": {
+   "inputs": [
+    {
+     "name": "machineMerkleRoot",
+     "type": "bytes32"
+    }
+   ],
+   "name": "InvalidMachineMerkleRoot",
+   "signature": "InvalidMachineMerkleRoot(bytes32)"
+  },
+  "0x03eb8b54": {
+   "inputs": [
+    {
+     "name": "value",
+     "type": "uint256"
+    },
+    {
+     "name": "balance",
+     "type": "uint256"
+    }
+   ],
+   "name": "InsufficientFunds",
+   "signature": "InsufficientFunds(uint256,uint256)"
+  },
+  "0x054a8598": {
+   "inputs": [
+    {
+     "name": "attemptedAccountSize",
+     "type": "uint256"
+    },
+    {
+     "name": "accountSize",
+     "type": "uint64"
+    }
+   ],
+   "name": "InvalidAccountSize",
+   "signature": "InvalidAccountSize(uint256,uint64)"
+  },
+  "0x09935952": {
+   "inputs": [
+    {
+     "name": "received",
+     "type": "uint256"
+    },
+    {
+     "name": "actual",
+     "type": "uint256"
+    }
+   ],
+   "name": "IncorrectEpochNumber",
+   "signature": "IncorrectEpochNumber(uint256,uint256)"
+  },
+  "0x0ef47687": {
+   "inputs": [],
+   "name": "ClockAlreadyInitialized",
+   "signature": "ClockAlreadyInitialized()"
+  },
+  "0x1304ad49": {
+   "inputs": [],
+   "name": "NotForeclosed",
+   "signature": "NotForeclosed()"
+  },
+  "0x15b136bb": {
+   "inputs": [],
+   "name": "RequireNonRootTournament",
+   "signature": "RequireNonRootTournament()"
+  },
+  "0x170d71f4": {
+   "inputs": [
+    {
+     "name": "storedInputHash",
+     "type": "bytes32"
+    },
+    {
+     "name": "invalidInputHash",
+     "type": "bytes32"
+    }
+   ],
+   "name": "InvalidInputHash",
+   "signature": "InvalidInputHash(bytes32,bytes32)"
+  },
+  "0x19c030e8": {
+   "inputs": [],
+   "name": "WrongNodesForStep",
+   "signature": "WrongNodesForStep()"
+  },
+  "0x1a40e64a": {
+   "inputs": [
+    {
+     "name": "log2DriveSize",
+     "type": "uint256"
+    },
+    {
+     "name": "maxLog2DriveSize",
+     "type": "uint256"
+    }
+   ],
+   "name": "DriveTooLarge",
+   "signature": "DriveTooLarge(uint256,uint256)"
+  },
+  "0x2b2494fd": {
+   "inputs": [
+    {
+     "name": "invalidInputIndex",
+     "type": "uint256"
+    },
+    {
+     "name": "numOfInputs",
+     "type": "uint256"
+    }
+   ],
+   "name": "InvalidInputIndex",
+   "signature": "InvalidInputIndex(uint256,uint256)"
+  },
+  "0x38bf024c": {
+   "inputs": [],
+   "name": "IllFormedInput",
+   "signature": "IllFormedInput()"
+  },
+  "0x394935b5": {
+   "inputs": [],
+   "name": "ZeroSentryAddress",
+   "signature": "ZeroSentryAddress()"
+  },
+  "0x3c15c063": {
+   "inputs": [
+    {
+     "name": "sentryId",
+     "type": "uint256"
+    },
+    {
+     "name": "sentry",
+     "type": "address"
+    }
+   ],
+   "name": "DuplicatedSentryAddress",
+   "signature": "DuplicatedSentryAddress(uint256,address)"
+  },
+  "0x3defceee": {
+   "inputs": [
+    {
+     "name": "expected",
+     "type": "address"
+    },
+    {
+     "name": "received",
+     "type": "address"
+    }
+   ],
+   "name": "ApplicationMismatch",
+   "signature": "ApplicationMismatch(address,address)"
+  },
+  "0x3f68df47": {
+   "inputs": [],
+   "name": "Foreclosed",
+   "signature": "Foreclosed()"
+  },
+  "0x43adccd1": {
+   "inputs": [],
+   "name": "InvalidMachineMerkleProof",
+   "signature": "InvalidMachineMerkleProof()"
+  },
+  "0x44a192ff": {
+   "inputs": [
+    {
+     "name": "outputsMerkleRoot",
+     "type": "bytes32"
+    }
+   ],
+   "name": "InvalidOutputsMerkleRoot",
+   "signature": "InvalidOutputsMerkleRoot(bytes32)"
+  },
+  "0x4541632c": {
+   "inputs": [
+    {
+     "name": "driveSize",
+     "type": "uint256"
+    },
+    {
+     "name": "dataSize",
+     "type": "uint256"
+    }
+   ],
+   "name": "DriveSmallerThanData",
+   "signature": "DriveSmallerThanData(uint256,uint256)"
+  },
+  "0x49e0385b": {
+   "inputs": [
+    {
+     "name": "inputIndex",
+     "type": "uint256"
+    }
+   ],
+   "name": "RefundAlreadyIssued",
+   "signature": "RefundAlreadyIssued(uint256)"
+  },
+  "0x4a8e84b3": {
+   "inputs": [
+    {
+     "name": "appContract",
+     "type": "address"
+    }
+   ],
+   "name": "ApplicationNotDeployed",
+   "signature": "ApplicationNotDeployed(address)"
+  },
+  "0x4abfd704": {
+   "inputs": [],
+   "name": "TournamentNotFinished",
+   "signature": "TournamentNotFinished()"
+  },
+  "0x4c910131": {
+   "inputs": [],
+   "name": "AccountsDriveMerkleRootNotProved",
+   "signature": "AccountsDriveMerkleRootNotProved()"
+  },
+  "0x4defad29": {
+   "inputs": [],
+   "name": "MatchCannotBeEliminatedByTimeout",
+   "signature": "MatchCannotBeEliminatedByTimeout()"
+  },
+  "0x58cccff4": {
+   "inputs": [],
+   "name": "MatchCannotBeSealed",
+   "signature": "MatchCannotBeSealed()"
+  },
+  "0x59e93a5f": {
+   "inputs": [],
+   "name": "MatchDoesNotExist",
+   "signature": "MatchDoesNotExist()"
+  },
+  "0x5f7d0311": {
+   "inputs": [
+    {
+     "name": "stackDepth",
+     "type": "uint256"
+    }
+   ],
+   "name": "UnexpectedFinalStackDepth",
+   "signature": "UnexpectedFinalStackDepth(uint256)"
+  },
+  "0x645b4c0f": {
+   "inputs": [],
+   "name": "MatchCannotBeWonByTimeout",
+   "signature": "MatchCannotBeWonByTimeout()"
+  },
+  "0x652c7b70": {
+   "inputs": [],
+   "name": "NotDeploymentBlock",
+   "signature": "NotDeploymentBlock()"
+  },
+  "0x65ef509a": {
+   "inputs": [
+    {
+     "name": "expectedParent",
+     "type": "bytes32"
+    },
+    {
+     "name": "leftChild",
+     "type": "bytes32"
+    },
+    {
+     "name": "rightChild",
+     "type": "bytes32"
+    }
+   ],
+   "name": "InvalidChildrenNodes",
+   "signature": "InvalidChildrenNodes(bytes32,bytes32,bytes32)"
+  },
+  "0x6740166f": {
+   "inputs": [],
+   "name": "RequireNonLeafTournament",
+   "signature": "RequireNonLeafTournament()"
+  },
+  "0x68158260": {
+   "inputs": [],
+   "name": "RequireLeafTournament",
+   "signature": "RequireLeafTournament()"
+  },
+  "0x68eb3b25": {
+   "inputs": [
+    {
+     "name": "accountsDriveMerkleRoot",
+     "type": "bytes32"
+    }
+   ],
+   "name": "InvalidAccountsDriveMerkleRoot",
+   "signature": "InvalidAccountsDriveMerkleRoot(bytes32)"
+  },
+  "0x697b8b79": {
+   "inputs": [
+    {
+     "name": "nodeIndex",
+     "type": "uint256"
+    },
+    {
+     "name": "height",
+     "type": "uint256"
+    }
+   ],
+   "name": "InvalidNodeIndex",
+   "signature": "InvalidNodeIndex(uint256,uint256)"
+  },
+  "0x6b88b6b2": {
+   "inputs": [
+    {
+     "name": "caller",
+     "type": "address"
+    }
+   ],
+   "name": "CallerIsNotSentry",
+   "signature": "CallerIsNotSentry(address)"
+  },
+  "0x704f598b": {
+   "inputs": [
+    {
+     "name": "nonSentry",
+     "type": "address"
+    }
+   ],
+   "name": "CannotRotateNonSentry",
+   "signature": "CannotRotateNonSentry(address)"
+  },
+  "0x75af4da6": {
+   "inputs": [
+    {
+     "name": "whichCommitment",
+     "type": "uint256"
+    },
+    {
+     "name": "commitmentRoot",
+     "type": "bytes32"
+    },
+    {
+     "name": "left",
+     "type": "bytes32"
+    },
+    {
+     "name": "right",
+     "type": "bytes32"
+    }
+   ],
+   "name": "WrongChildren",
+   "signature": "WrongChildren(uint256,bytes32,bytes32,bytes32)"
+  },
+  "0x770a2e58": {
+   "inputs": [],
+   "name": "TournamentNotFinishedYet",
+   "signature": "TournamentNotFinishedYet()"
+  },
+  "0x773af801": {
+   "inputs": [
+    {
+     "name": "initialState",
+     "type": "bytes32"
+    },
+    {
+     "name": "agreeState",
+     "type": "bytes32"
+    }
+   ],
+   "name": "IncorrectAgreeState",
+   "signature": "IncorrectAgreeState(bytes32,bytes32)"
+  },
+  "0x7b97a6bb": {
+   "inputs": [
+    {
+     "name": "output",
+     "type": "bytes"
+    }
+   ],
+   "name": "OutputNotReexecutable",
+   "signature": "OutputNotReexecutable(bytes)"
+  },
+  "0x7e5cc62f": {
+   "inputs": [
+    {
+     "name": "caller",
+     "type": "address"
+    }
+   ],
+   "name": "CallerIsNotSentryManager",
+   "signature": "CallerIsNotSentryManager(address)"
+  },
+  "0x7ee96bc5": {
+   "inputs": [],
+   "name": "InvalidPostEpochMachineIflagsYRegister",
+   "signature": "InvalidPostEpochMachineIflagsYRegister()"
+  },
+  "0x7f69a669": {
+   "inputs": [],
+   "name": "InvalidSiblingsArrayLength",
+   "signature": "InvalidSiblingsArrayLength()"
+  },
+  "0x8013d145": {
+   "inputs": [
+    {
+     "name": "log2DataBlockSize",
+     "type": "uint256"
+    },
+    {
+     "name": "maxLog2DataBlockSize",
+     "type": "uint256"
+    }
+   ],
+   "name": "DataBlockTooLarge",
+   "signature": "DataBlockTooLarge(uint256,uint256)"
+  },
+  "0x862b7a12": {
+   "inputs": [
+    {
+     "name": "log2DriveSize",
+     "type": "uint256"
+    },
+    {
+     "name": "log2DataBlockSize",
+     "type": "uint256"
+    }
+   ],
+   "name": "DriveSmallerThanDataBlock",
+   "signature": "DriveSmallerThanDataBlock(uint256,uint256)"
+  },
+  "0x88d43dec": {
+   "inputs": [
+    {
+     "name": "appContract",
+     "type": "address"
+    },
+    {
+     "name": "data",
+     "type": "bytes"
+    }
+   ],
+   "name": "IllformedApplicationReturnData",
+   "signature": "IllformedApplicationReturnData(address,bytes)"
+  },
+  "0x8905b32e": {
+   "inputs": [],
+   "name": "InvalidPostEpochMachineHtifTohostRegister",
+   "signature": "InvalidPostEpochMachineHtifTohostRegister()"
+  },
+  "0x89547576": {
+   "inputs": [
+    {
+     "name": "inputSender",
+     "type": "address"
+    }
+   ],
+   "name": "UnknownInputSender",
+   "signature": "UnknownInputSender(address)"
+  },
+  "0x8b9ae95f": {
+   "inputs": [],
+   "name": "NoWinner",
+   "signature": "NoWinner()"
+  },
+  "0x8e2b82c9": {
+   "inputs": [
+    {
+     "name": "epochNumber",
+     "type": "uint256"
+    },
+    {
+     "name": "sentryId",
+     "type": "uint256"
+    }
+   ],
+   "name": "SentryAlreadyClaimed",
+   "signature": "SentryAlreadyClaimed(uint256,uint256)"
+  },
+  "0x8eb91532": {
+   "inputs": [],
+   "name": "AccountsDriveMerkleRootAlreadyProved",
+   "signature": "AccountsDriveMerkleRootAlreadyProved()"
+  },
+  "0x9049509a": {
+   "inputs": [],
+   "name": "TournamentResultNotStaged",
+   "signature": "TournamentResultNotStaged()"
+  },
+  "0x91083090": {
+   "inputs": [],
+   "name": "ChildTournamentCannotBeEliminated",
+   "signature": "ChildTournamentCannotBeEliminated()"
+  },
+  "0x95390eff": {
+   "inputs": [],
+   "name": "CannotAdvanceTimedOutClock",
+   "signature": "CannotAdvanceTimedOutClock()"
+  },
+  "0x95ddf153": {
+   "inputs": [],
+   "name": "TournamentIsFinished",
+   "signature": "TournamentIsFinished()"
+  },
+  "0x9a7efb8b": {
+   "inputs": [],
+   "name": "MatchCannotBeAdvanced",
+   "signature": "MatchCannotBeAdvanced()"
+  },
+  "0x9f09e157": {
+   "inputs": [],
+   "name": "ChildTournamentMustBeEliminated",
+   "signature": "ChildTournamentMustBeEliminated()"
+  },
+  "0x9f21b8a0": {
+   "inputs": [
+    {
+     "name": "appContract",
+     "type": "address"
+    },
+    {
+     "name": "inputLength",
+     "type": "uint256"
+    },
+    {
+     "name": "maxInputLength",
+     "type": "uint256"
+    }
+   ],
+   "name": "InputTooLarge",
+   "signature": "InputTooLarge(address,uint256,uint256)"
+  },
+  "0xa5f55d6e": {
+   "inputs": [
+    {
+     "name": "fromReceivedInput",
+     "type": "bytes32"
+    },
+    {
+     "name": "fromInputBox",
+     "type": "bytes32"
+    }
+   ],
+   "name": "InputHashMismatch",
+   "signature": "InputHashMismatch(bytes32,bytes32)"
+  },
+  "0xaa0bedda": {
+   "inputs": [],
+   "name": "InvalidAccountRootSiblingsArrayLength",
+   "signature": "InvalidAccountRootSiblingsArrayLength()"
+  },
+  "0xac57beef": {
+   "inputs": [],
+   "name": "TournamentIsClosed",
+   "signature": "TournamentIsClosed()"
+  },
+  "0xb3045ef8": {
+   "inputs": [],
+   "name": "TournamentFailedNoWinner",
+   "signature": "TournamentFailedNoWinner()"
+  },
+  "0xb581e71a": {
+   "inputs": [],
+   "name": "InvalidAccountsDriveMerkleRootProofSize",
+   "signature": "InvalidAccountsDriveMerkleRootProofSize()"
+  },
+  "0xba58bd36": {
+   "inputs": [],
+   "name": "InvalidOutputHashesSiblingsArrayLength",
+   "signature": "InvalidOutputHashesSiblingsArrayLength()"
+  },
+  "0xbc278c2b": {
+   "inputs": [],
+   "name": "MatchIsNotSealed",
+   "signature": "MatchIsNotSealed()"
+  },
+  "0xc5ba0ac3": {
+   "inputs": [
+    {
+     "name": "treeHeight",
+     "type": "uint256"
+    },
+    {
+     "name": "siblingsLength",
+     "type": "uint256"
+    }
+   ],
+   "name": "CommitmentProofWrongSize",
+   "signature": "CommitmentProofWrongSize(uint256,uint256)"
+  },
+  "0xc5f2be51": {
+   "inputs": [],
+   "name": "ReentrancyDetected",
+   "signature": "ReentrancyDetected()"
+  },
+  "0xc78c5c85": {
+   "inputs": [
+    {
+     "name": "inputBox",
+     "type": "address"
+    }
+   ],
+   "name": "InputBoxNotDeployed",
+   "signature": "InputBoxNotDeployed(address)"
+  },
+  "0xca5aceb3": {
+   "inputs": [
+    {
+     "name": "contestedFinalStateOne",
+     "type": "bytes32"
+    },
+    {
+     "name": "contestedFinalStateTwo",
+     "type": "bytes32"
+    },
+    {
+     "name": "finalState",
+     "type": "bytes32"
+    }
+   ],
+   "name": "InvalidContestedFinalState",
+   "signature": "InvalidContestedFinalState(bytes32,bytes32,bytes32)"
+  },
+  "0xd284c01e": {
+   "inputs": [
+    {
+     "name": "output",
+     "type": "bytes"
+    }
+   ],
+   "name": "OutputNotExecutable",
+   "signature": "OutputNotExecutable(bytes)"
+  },
+  "0xd74cbd1f": {
+   "inputs": [
+    {
+     "name": "commitmentRoot",
+     "type": "bytes32"
+    },
+    {
+     "name": "winner",
+     "type": "bytes32"
+    }
+   ],
+   "name": "WrongTournamentWinner",
+   "signature": "WrongTournamentWinner(bytes32,bytes32)"
+  },
+  "0xd9943d94": {
+   "inputs": [
+    {
+     "name": "numberOfBlocksAfterStaging",
+     "type": "uint256"
+    },
+    {
+     "name": "claimStagingPeriod",
+     "type": "uint256"
+    }
+   ],
+   "name": "ClaimStagingPeriodNotOverYet",
+   "signature": "ClaimStagingPeriodNotOverYet(uint256,uint256)"
+  },
+  "0xd9c4bfb9": {
+   "inputs": [],
+   "name": "TournamentResultAlreadyStaged",
+   "signature": "TournamentResultAlreadyStaged()"
+  },
+  "0xdc7f407a": {
+   "inputs": [
+    {
+     "name": "whichCommitment",
+     "type": "uint256"
+    },
+    {
+     "name": "computedPostState",
+     "type": "bytes32"
+    },
+    {
+     "name": "committedPostState",
+     "type": "bytes32"
+    }
+   ],
+   "name": "WrongFinalState",
+   "signature": "WrongFinalState(uint256,bytes32,bytes32)"
+  },
+  "0xde0be8c2": {
+   "inputs": [],
+   "name": "ChildTournamentNotFinished",
+   "signature": "ChildTournamentNotFinished()"
+  },
+  "0xdf377e20": {
+   "inputs": [
+    {
+     "name": "accountIndex",
+     "type": "uint64"
+    }
+   ],
+   "name": "AccountFundsAlreadyWithdrawn",
+   "signature": "AccountFundsAlreadyWithdrawn(uint64)"
+  },
+  "0xe54c1954": {
+   "inputs": [
+    {
+     "name": "withdrawalConfig",
+     "type": "(address,uint8,uint8,uint64,address)"
+    }
+   ],
+   "name": "InvalidWithdrawalConfig",
+   "signature": "InvalidWithdrawalConfig((address,uint8,uint8,uint64,address))"
+  },
+  "0xe92c469f": {
+   "inputs": [],
+   "name": "InsufficientBond",
+   "signature": "InsufficientBond()"
+  },
+  "0xe96c3a65": {
+   "inputs": [
+    {
+     "name": "expected",
+     "type": "bytes32"
+    },
+    {
+     "name": "computed",
+     "type": "bytes32"
+    }
+   ],
+   "name": "CommitmentStateMismatch",
+   "signature": "CommitmentStateMismatch(bytes32,bytes32)"
+  },
+  "0xea9699e7": {
+   "inputs": [
+    {
+     "name": "appContract",
+     "type": "address"
+    },
+    {
+     "name": "error",
+     "type": "bytes"
+    }
+   ],
+   "name": "ApplicationReverted",
+   "signature": "ApplicationReverted(address,bytes)"
+  },
+  "0xec08950d": {
+   "inputs": [
+    {
+     "name": "inputIndex",
+     "type": "uint256"
+    }
+   ],
+   "name": "CannotRefundFinalizedInput",
+   "signature": "CannotRefundFinalizedInput(uint256)"
+  },
+  "0xef6d0f02": {
+   "inputs": [],
+   "name": "NotGuardian",
+   "signature": "NotGuardian()"
+  },
+  "0xfff23361": {
+   "inputs": [
+    {
+     "name": "target",
+     "type": "address"
+    }
+   ],
+   "name": "TargetHasNoCode",
+   "signature": "TargetHasNoCode(address)"
+  }
+ },
+ "events": {
+  "0x0a242da6706fab1ed52cfaf047d4939b8c7acac1fe8ff75d911758adf345bdda": {
+   "contract": "DaveConsensus",
+   "inputs": [
+    {
+     "indexed": true,
+     "name": "epochNumber",
+     "type": "uint256"
+    },
+    {
+     "indexed": true,
+     "name": "sentryId",
+     "type": "uint256"
+    },
+    {
+     "indexed": true,
+     "name": "sentry",
+     "type": "address"
+    },
+    {
+     "indexed": false,
+     "name": "postEpochMachineStateHash",
+     "type": "bytes32"
+    }
+   ],
+   "name": "SentryClaim",
+   "signature": "SentryClaim(uint256,uint256,address,bytes32)"
+  },
+  "0x11bda32901e3e37ab2859f6a8b7b525ecd2b67c579f173700ad8642346cabf4e": {
+   "contract": "Tournament",
+   "inputs": [
+    {
+     "indexed": true,
+     "name": "commitment",
+     "type": "bytes32"
+    },
+    {
+     "indexed": true,
+     "name": "claimer",
+     "type": "address"
+    },
+    {
+     "indexed": false,
+     "name": "payment",
+     "type": "uint256"
+    },
+    {
+     "indexed": false,
+     "name": "burned",
+     "type": "uint256"
+    }
+   ],
+   "name": "BondRecovered",
+   "signature": "BondRecovered(bytes32,address,uint256,uint256)"
+  },
+  "0x13bd4fdfe8d8a96c44e1f8c899cde8f2ae549c60b4768631f1a88541f85bec62": {
+   "contract": "DaveConsensus",
+   "inputs": [
+    {
+     "indexed": true,
+     "name": "epochNumber",
+     "type": "uint256"
+    },
+    {
+     "indexed": false,
+     "name": "stagedPostEpochMachineStateHash",
+     "type": "bytes32"
+    },
+    {
+     "indexed": false,
+     "name": "stagedPostEpochOutputsMerkleRoot",
+     "type": "bytes32"
+    }
+   ],
+   "name": "EpochStaged",
+   "signature": "EpochStaged(uint256,bytes32,bytes32)"
+  },
+  "0x1c5771374c7e30d72546ebada2373852b83c92f2e40da2e8987f059fa732682d": {
+   "contract": "DaveConsensus",
+   "inputs": [
+    {
+     "indexed": true,
+     "name": "sentryId",
+     "type": "uint256"
+    },
+    {
+     "indexed": true,
+     "name": "oldSentry",
+     "type": "address"
+    },
+    {
+     "indexed": true,
+     "name": "newSentry",
+     "type": "address"
+    }
+   ],
+   "name": "SentryRotation",
+   "signature": "SentryRotation(uint256,address,address)"
+  },
+  "0x1d3ae066e466a0203dcc05b06daeba9922750bcf99aa7837a92123fca1287406": {
+   "contract": "Tournament",
+   "inputs": [
+    {
+     "indexed": true,
+     "name": "matchIdHash",
+     "type": "bytes32"
+    },
+    {
+     "indexed": true,
+     "name": "one",
+     "type": "bytes32"
+    },
+    {
+     "indexed": true,
+     "name": "two",
+     "type": "bytes32"
+    },
+    {
+     "indexed": false,
+     "name": "reason",
+     "type": "uint8"
+    },
+    {
+     "indexed": false,
+     "name": "winnerCommitment",
+     "type": "uint8"
+    }
+   ],
+   "name": "MatchDeleted",
+   "signature": "MatchDeleted(bytes32,bytes32,bytes32,uint8,uint8)"
+  },
+  "0x1e7ce3d695b800137b84540cdf13216ec4aa4f00374482b89ab552368e800dd9": {
+   "contract": "Application",
+   "inputs": [
+    {
+     "indexed": true,
+     "name": "inputIndex",
+     "type": "uint256"
+    },
+    {
+     "indexed": false,
+     "name": "input",
+     "type": "bytes"
+    },
+    {
+     "indexed": false,
+     "name": "output",
+     "type": "bytes"
+    }
+   ],
+   "name": "RefundIssued",
+   "signature": "RefundIssued(uint256,bytes,bytes)"
+  },
+  "0x304d9235f96c68167f2d1c8f6fbdce133d7d35b4706d00f47b40172cf96bd923": {
+   "contract": "Tournament",
+   "inputs": [
+    {
+     "indexed": true,
+     "name": "matchIdHash",
+     "type": "bytes32"
+    },
+    {
+     "indexed": false,
+     "name": "eliminableAt",
+     "type": "uint64"
+    }
+   ],
+   "name": "LeafMatchSealed",
+   "signature": "LeafMatchSealed(bytes32,uint64)"
+  },
+  "0x421863fbad9f3586640ffad00109861693263a28f6e97c679f45c3cbf5263594": {
+   "contract": "Application",
+   "inputs": [
+    {
+     "indexed": false,
+     "name": "accountsDriveMerkleRoot",
+     "type": "bytes32"
+    }
+   ],
+   "name": "AccountsDriveMerkleRootProved",
+   "signature": "AccountsDriveMerkleRootProved(bytes32)"
+  },
+  "0x6257204c2340779874d2f4e6f94db385ead25b228b1660535f7cbc81b492ac1e": {
+   "contract": "Tournament",
+   "inputs": [
+    {
+     "indexed": true,
+     "name": "matchIdHash",
+     "type": "bytes32"
+    },
+    {
+     "indexed": true,
+     "name": "one",
+     "type": "bytes32"
+    },
+    {
+     "indexed": true,
+     "name": "two",
+     "type": "bytes32"
+    },
+    {
+     "indexed": false,
+     "name": "leftOfTwo",
+     "type": "bytes32"
+    },
+    {
+     "indexed": false,
+     "name": "eliminableAt",
+     "type": "uint64"
+    }
+   ],
+   "name": "MatchCreated",
+   "signature": "MatchCreated(bytes32,bytes32,bytes32,bytes32,uint64)"
+  },
+  "0x66b8e5c50b708b71a6f155375a4613dd12971db692c5931e7cb0701ee7add6ac": {
+   "contract": "TournamentFactory",
+   "inputs": [
+    {
+     "indexed": false,
+     "name": "tournament",
+     "type": "address"
+    }
+   ],
+   "name": "TournamentCreated",
+   "signature": "TournamentCreated(address)"
+  },
+  "0x6ad3188ba8f430fba0656cb0a7e839ab2020d5586ba11a1477d18f7092f8bece": {
+   "contract": "Application",
+   "inputs": [
+    {
+     "indexed": false,
+     "name": "newOutputsMerkleRootValidator",
+     "type": "address"
+    }
+   ],
+   "name": "OutputsMerkleRootValidatorChanged",
+   "signature": "OutputsMerkleRootValidatorChanged(address)"
+  },
+  "0xa91d0b68c00a132585cc08007b46ff5f0abc622f5286b5701149b33784764ced": {
+   "contract": "DaveConsensus",
+   "inputs": [
+    {
+     "indexed": true,
+     "name": "epochNumber",
+     "type": "uint256"
+    },
+    {
+     "indexed": false,
+     "name": "inputIndexLowerBound",
+     "type": "uint256"
+    },
+    {
+     "indexed": false,
+     "name": "inputIndexUpperBound",
+     "type": "uint256"
+    },
+    {
+     "indexed": false,
+     "name": "initialMachineStateHash",
+     "type": "bytes32"
+    },
+    {
+     "indexed": false,
+     "name": "outputsMerkleRoot",
+     "type": "bytes32"
+    },
+    {
+     "indexed": false,
+     "name": "tournament",
+     "type": "address"
+    }
+   ],
+   "name": "EpochSealed",
+   "signature": "EpochSealed(uint256,uint256,uint256,bytes32,bytes32,address)"
+  },
+  "0xaf68463e16cb5595a44214bea8d366ecf7cd3410269c50f92c104b50a7829daa": {
+   "contract": "DaveConsensus",
+   "inputs": [
+    {
+     "indexed": false,
+     "name": "inputBox",
+     "type": "address"
+    },
+    {
+     "indexed": false,
+     "name": "appContract",
+     "type": "address"
+    },
+    {
+     "indexed": false,
+     "name": "tournamentFactory",
+     "type": "address"
+    }
+   ],
+   "name": "ConsensusCreation",
+   "signature": "ConsensusCreation(address,address,address)"
+  },
+  "0xb6135d4f6f9687ce2f55ce0fd69c7f9d77e003a036ac8e402828abdd973621b1": {
+   "contract": "Tournament",
+   "inputs": [
+    {
+     "indexed": true,
+     "name": "matchIdHash",
+     "type": "bytes32"
+    },
+    {
+     "indexed": false,
+     "name": "otherParent",
+     "type": "bytes32"
+    },
+    {
+     "indexed": false,
+     "name": "leftNode",
+     "type": "bytes32"
+    },
+    {
+     "indexed": false,
+     "name": "segmentStartPosition",
+     "type": "uint256"
+    },
+    {
+     "indexed": false,
+     "name": "eliminableAt",
+     "type": "uint64"
+    }
+   ],
+   "name": "MatchAdvanced",
+   "signature": "MatchAdvanced(bytes32,bytes32,bytes32,uint256,uint64)"
+  },
+  "0xc05d337121a6e8605c6ec0b72aa29c4210ffe6e5b9cefdd6a7058188a8f66f98": {
+   "contract": "InputBox",
+   "inputs": [
+    {
+     "indexed": true,
+     "name": "appContract",
+     "type": "address"
+    },
+    {
+     "indexed": true,
+     "name": "index",
+     "type": "uint256"
+    },
+    {
+     "indexed": false,
+     "name": "input",
+     "type": "bytes"
+    }
+   ],
+   "name": "InputAdded",
+   "signature": "InputAdded(address,uint256,bytes)"
+  },
+  "0xc7912008857e6a935ca95124a47677526500edc470687f5ced6e7ad3ca465138": {
+   "contract": "Tournament",
+   "inputs": [
+    {
+     "indexed": true,
+     "name": "matchIdHash",
+     "type": "bytes32"
+    },
+    {
+     "indexed": true,
+     "name": "childTournament",
+     "type": "address"
+    }
+   ],
+   "name": "NewInnerTournament",
+   "signature": "NewInnerTournament(bytes32,address)"
+  },
+  "0xcad1f361c6e84664e892230291c8e8eb9555683e0a6a5ce8ea7b204ac0ac3676": {
+   "contract": "Application",
+   "inputs": [
+    {
+     "indexed": true,
+     "name": "outputIndex",
+     "type": "uint64"
+    },
+    {
+     "indexed": false,
+     "name": "output",
+     "type": "bytes"
+    }
+   ],
+   "name": "OutputExecuted",
+   "signature": "OutputExecuted(uint64,bytes)"
+  },
+  "0xd10ac0ca4adfcec0fa841963d75fefd049b7cd20555173c0673d9b2bfdb9d3ac": {
+   "contract": "Application",
+   "inputs": [],
+   "name": "Foreclosure",
+   "signature": "Foreclosure()"
+  },
+  "0xde17c4fe795586e35da70cf61f10d8b19542b1eaf30daf7670e8ae438908ba59": {
+   "contract": "Application",
+   "inputs": [
+    {
+     "indexed": true,
+     "name": "accountIndex",
+     "type": "uint64"
+    },
+    {
+     "indexed": false,
+     "name": "account",
+     "type": "bytes"
+    },
+    {
+     "indexed": false,
+     "name": "output",
+     "type": "bytes"
+    }
+   ],
+   "name": "Withdrawal",
+   "signature": "Withdrawal(uint64,bytes,bytes)"
+  },
+  "0xdf2ebeb5a7d7df0100c0274c7cee9570954d7bebeef37db55b27204a57f65602": {
+   "contract": "DaveAppFactory",
+   "inputs": [
+    {
+     "indexed": false,
+     "name": "appContract",
+     "type": "address"
+    },
+    {
+     "indexed": false,
+     "name": "daveConsensus",
+     "type": "address"
+    }
+   ],
+   "name": "DaveAppCreated",
+   "signature": "DaveAppCreated(address,address)"
+  },
+  "0xeff3c62ee3695d2aab88b472c281a81d4f20bd5e8b13b775210e77a228d46926": {
+   "contract": "Tournament",
+   "inputs": [
+    {
+     "indexed": true,
+     "name": "recipient",
+     "type": "address"
+    },
+    {
+     "indexed": false,
+     "name": "value",
+     "type": "uint256"
+    },
+    {
+     "indexed": true,
+     "name": "success",
+     "type": "bool"
+    }
+   ],
+   "name": "PartialBondRefund",
+   "signature": "PartialBondRefund(address,uint256,bool)"
+  },
+  "0xf8e98e9201e0caf973fa5520838a058bd8a819e0a8f5dd1fa08c3e550d4b9872": {
+   "contract": "Tournament",
+   "inputs": [
+    {
+     "indexed": true,
+     "name": "commitment",
+     "type": "bytes32"
+    },
+    {
+     "indexed": false,
+     "name": "finalStateHash",
+     "type": "bytes32"
+    },
+    {
+     "indexed": true,
+     "name": "submitter",
+     "type": "address"
+    }
+   ],
+   "name": "CommitmentJoined",
+   "signature": "CommitmentJoined(bytes32,bytes32,address)"
+  }
+ },
+ "functions": {
+  "0x00aace9a": {
+   "contract": "Application",
+   "name": "getInputBox"
+  },
+  "0x01ffc9a7": {
+   "contract": "DaveConsensus",
+   "name": "supportsInterface"
+  },
+  "0x0589deec": {
+   "contract": "Tournament",
+   "name": "tournamentStanding"
+  },
+  "0x08eb89ab": {
+   "contract": "Application",
+   "name": "validateOutputHash"
+  },
+  "0x08f0f877": {
+   "contract": "Tournament",
+   "name": "innerResult"
+  },
+  "0x0b64d79b": {
+   "contract": "TournamentFactory",
+   "name": "instantiate"
+  },
+  "0x0c2f5d7c": {
+   "contract": "DaveConsensus",
+   "name": "getSentryManager"
+  },
+  "0x0e70381b": {
+   "contract": "Application",
+   "name": "getNumberOfWithdrawals"
+  },
+  "0x1118be66": {
+   "contract": "Application",
+   "name": "getNumberOfIssuedRefunds"
+  },
+  "0x1239acd9": {
+   "contract": "DaveConsensus",
+   "name": "getCurrentSealedEpoch"
+  },
+  "0x1789cd63": {
+   "contract": "InputBox",
+   "name": "addInput"
+  },
+  "0x191f84a8": {
+   "contract": "Application",
+   "name": "validateInputHash"
+  },
+  "0x1d5bf796": {
+   "contract": "Tournament",
+   "name": "joinTournament"
+  },
+  "0x21719b1e": {
+   "contract": "Tournament",
+   "name": "tournamentDescriptor"
+  },
+  "0x26860b49": {
+   "contract": "Tournament",
+   "name": "eliminateInnerTournament"
+  },
+  "0x28a0e3c5": {
+   "contract": "Application",
+   "name": "getLog2LeavesPerAccount"
+  },
+  "0x2b639720": {
+   "contract": "Application",
+   "name": "validateAccount"
+  },
+  "0x2b73ad31": {
+   "contract": "DaveConsensus",
+   "name": "wasInputFinalized"
+  },
+  "0x2c243a1e": {
+   "contract": "Tournament",
+   "name": "getCommitmentJoinedCount"
+  },
+  "0x2cf66e56": {
+   "contract": "Tournament",
+   "name": "bondRecovery"
+  },
+  "0x30beca25": {
+   "contract": "Tournament",
+   "name": "getNewInnerTournamentCount"
+  },
+  "0x33137b76": {
+   "contract": "Application",
+   "name": "executeOutput"
+  },
+  "0x33807cbc": {
+   "contract": "Tournament",
+   "name": "tryRecoveringBond"
+  },
+  "0x3f36e2fe": {
+   "contract": "Tournament",
+   "name": "sealInnerMatchAndCreateInnerTournament"
+  },
+  "0x47d309f7": {
+   "contract": "DaveConsensus",
+   "name": "getSentryClaimCount"
+  },
+  "0x4a95153e": {
+   "contract": "Tournament",
+   "name": "winInnerTournament"
+  },
+  "0x5017746a": {
+   "contract": "Tournament",
+   "name": "sealLeafMatch"
+  },
+  "0x50c8378d": {
+   "contract": "DaveConsensus",
+   "name": "getSentryById"
+  },
+  "0x54fd4d50": {
+   "contract": "Application",
+   "name": "version"
+  },
+  "0x5592ff8a": {
+   "contract": "DaveAppFactory",
+   "name": "calculateDaveAppAddress"
+  },
+  "0x592b96c4": {
+   "contract": "DaveConsensus",
+   "name": "acceptStagedTournamentResult"
+  },
+  "0x5ac9cfbf": {
+   "contract": "DaveConsensus",
+   "name": "getLastFinalizedMachineMerkleRoot"
+  },
+  "0x5c2694fd": {
+   "contract": "DaveConsensus",
+   "name": "canStageTournamentResult"
+  },
+  "0x6041ddd5": {
+   "contract": "Tournament",
+   "name": "winLeafMatch"
+  },
+  "0x61a93c87": {
+   "contract": "InputBox",
+   "name": "getNumberOfInputs"
+  },
+  "0x61b12c66": {
+   "contract": "Application",
+   "name": "getTemplateHash"
+  },
+  "0x62d0d040": {
+   "contract": "Tournament",
+   "name": "readyToSealMatch"
+  },
+  "0x63b9c3b2": {
+   "contract": "Application",
+   "name": "validateAccountMerkleRoot"
+  },
+  "0x65d0c9ce": {
+   "contract": "Application",
+   "name": "getWithdrawalConfig"
+  },
+  "0x677087c9": {
+   "contract": "InputBox",
+   "name": "getInputHash"
+  },
+  "0x6e42fc59": {
+   "contract": "Tournament",
+   "name": "sealedMatch"
+  },
+  "0x715018a6": {
+   "contract": "Application",
+   "name": "renounceOwnership"
+  },
+  "0x71891db0": {
+   "contract": "Application",
+   "name": "wasOutputExecuted"
+  },
+  "0x7a96f480": {
+   "contract": "DaveConsensus",
+   "name": "provideMerkleRootOfInput"
+  },
+  "0x7ea1763b": {
+   "contract": "DaveAppFactory",
+   "name": "newDaveApp"
+  },
+  "0x813a1aaf": {
+   "contract": "DaveConsensus",
+   "name": "getTournamentFactory"
+  },
+  "0x8272a6aa": {
+   "contract": "Application",
+   "name": "wereAccountFundsWithdrawn"
+  },
+  "0x83e4fbcd": {
+   "contract": "Application",
+   "name": "isForeclosed"
+  },
+  "0x87373745": {
+   "contract": "Tournament",
+   "name": "getLeafMatchSealedCount"
+  },
+  "0x8989ced4": {
+   "contract": "Tournament",
+   "name": "getMatchCreatedCount"
+  },
+  "0x8bb6ae16": {
+   "contract": "DaveConsensus",
+   "name": "getSentryId"
+  },
+  "0x8cd92074": {
+   "contract": "Application",
+   "name": "getRefundOutputBuilder"
+  },
+  "0x8da5cb5b": {
+   "contract": "Application",
+   "name": "owner"
+  },
+  "0x92ab68d0": {
+   "contract": "Application",
+   "name": "getWithdrawalOutputBuilder"
+  },
+  "0x9a9b4b2b": {
+   "contract": "Tournament",
+   "name": "eliminateMatchByTimeout"
+  },
+  "0x9dab5b26": {
+   "contract": "DaveConsensus",
+   "name": "submitSentryClaim"
+  },
+  "0xa04c6564": {
+   "contract": "DaveConsensus",
+   "name": "getClaimStagingPeriod"
+  },
+  "0xa75b87d2": {
+   "contract": "Application",
+   "name": "getGuardian"
+  },
+  "0xa94dfc5a": {
+   "contract": "Application",
+   "name": "getOutputsMerkleRootValidator"
+  },
+  "0xab2423ad": {
+   "contract": "Application",
+   "name": "getAccountsDriveStartIndex"
+  },
+  "0xab36a12e": {
+   "contract": "DaveConsensus",
+   "name": "canAcceptStagedTournamentResult"
+  },
+  "0xb3a1acd8": {
+   "contract": "Application",
+   "name": "getDeploymentBlockNumber"
+  },
+  "0xb55832c6": {
+   "contract": "DaveConsensus",
+   "name": "hasSentryClaimedInEpoch"
+  },
+  "0xb8bc3e5d": {
+   "contract": "Tournament",
+   "name": "bisectingMatch"
+  },
+  "0xbcf8023f": {
+   "contract": "Application",
+   "name": "withdraw"
+  },
+  "0xbe77e2c4": {
+   "contract": "Application",
+   "name": "proveAccountsDriveMerkleRoot"
+  },
+  "0xbf4e5230": {
+   "contract": "DaveConsensus",
+   "name": "rotateSentry"
+  },
+  "0xbf8abff8": {
+   "contract": "Application",
+   "name": "migrateToOutputsMerkleRootValidator"
+  },
+  "0xc050be00": {
+   "contract": "DaveConsensus",
+   "name": "getApplicationContract"
+  },
+  "0xc1dd774d": {
+   "contract": "DaveConsensus",
+   "name": "stageTournamentResult"
+  },
+  "0xc59319c2": {
+   "contract": "Application",
+   "name": "validateInput"
+  },
+  "0xc64c6601": {
+   "contract": "TournamentFactory",
+   "name": "stateTransition"
+  },
+  "0xcce91060": {
+   "contract": "Application",
+   "name": "wasRefundForInputIssued"
+  },
+  "0xd076fad5": {
+   "contract": "TournamentFactory",
+   "name": "tournamentLevelCount"
+  },
+  "0xd2d5862c": {
+   "contract": "Tournament",
+   "name": "bondValue"
+  },
+  "0xd3976945": {
+   "contract": "Tournament",
+   "name": "getMatchDeletedCount"
+  },
+  "0xd4c4646a": {
+   "contract": "Application",
+   "name": "issueRefund"
+  },
+  "0xdcead735": {
+   "contract": "Tournament",
+   "name": "classifyMatchTimeout"
+  },
+  "0xe05cc93f": {
+   "contract": "TournamentFactory",
+   "name": "tournamentParameters"
+  },
+  "0xe5cc8664": {
+   "contract": "DaveConsensus",
+   "name": "isOutputsMerkleRootValid"
+  },
+  "0xe64fab4d": {
+   "contract": "Application",
+   "name": "getNumberOfExecutedOutputs"
+  },
+  "0xe88d39c0": {
+   "contract": "Application",
+   "name": "validateOutput"
+  },
+  "0xeb6266e2": {
+   "contract": "Application",
+   "name": "foreclose"
+  },
+  "0xf04ba871": {
+   "contract": "Application",
+   "name": "getAccountsDriveMerkleRoot"
+  },
+  "0xf2f0143d": {
+   "contract": "DaveConsensus",
+   "name": "getNumberOfSentries"
+  },
+  "0xf2fde38b": {
+   "contract": "Application",
+   "name": "transferOwnership"
+  },
+  "0xf3cb94fc": {
+   "contract": "Tournament",
+   "name": "commitmentStanding"
+  },
+  "0xf65e16e8": {
+   "contract": "TournamentFactory",
+   "name": "instantiateInner"
+  },
+  "0xf8cb3bd0": {
+   "contract": "Tournament",
+   "name": "getMatchAdvancedCount"
+  },
+  "0xfc39b736": {
+   "contract": "Application",
+   "name": "getLog2MaxNumOfAccounts"
+  },
+  "0xfcc85391": {
+   "contract": "Tournament",
+   "name": "advanceMatch"
+  },
+  "0xff78e0ee": {
+   "contract": "Tournament",
+   "name": "winMatchByTimeout"
+  }
+ }
+}
