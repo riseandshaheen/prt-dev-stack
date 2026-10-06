@@ -54,6 +54,11 @@ def run(h):
             lag = h.chain.head() - 2 - done
             logs = probe.logs()
             (folder / f"A-{label}-probe.log").write_text(logs)
+            h.log(f"A {label} state: {probe.dump(folder / f'A-{label}-db').strip()}")
+            (folder / f"A-{label}-chain.txt").write_text(
+                f"head {h.chain.head()}, finalized {h.chain.head() - 2}\n"
+                f"InputBox inputs for echo: {h.chain.view(stack.INPUT_BOX, 'getNumberOfInputs(address)', ['uint256'], stack.APP)[0]}\n"
+                f"sealed epoch: {h.sealed()}\n")
             err = next((l for l in logs.splitlines() if "panicked" in l or "ERROR" in l), None)
             h.log(f"A {label}: running={st['running']} exit={st['exit_code']} processed={done} lag={lag} "
                   f"getLogs={stats['counts'].get('eth_getLogs', 0)} first error: {err}")
@@ -91,6 +96,7 @@ def run(h):
         _tick(h, 40)
         lag2 = h.chain.head() - 2 - _processed(probe)
         h.log(f"B after switching back to pass-through: lag {lag2}")
+        h.log(f"B state: {probe.dump(folder / 'B-db').strip()}")
         h.check(lag2 <= 5, f"B: the probe recovers as soon as the provider stops refusing (lag {lag2})")
 
         # C. Throttling: request load under random errors, while the probe follows the head.

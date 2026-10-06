@@ -97,6 +97,26 @@ class ProbeSling:
         finally:
             shutil.rmtree(tmp, ignore_errors=True)
 
+    def dump(self, dest: Path) -> str:
+        """Copy the probe's SQLite files to dest and return a short human-readable summary."""
+        dest.mkdir(parents=True, exist_ok=True)
+        for f in ("db.sqlite3", "db.sqlite3-wal", "db.sqlite3-shm"):
+            subprocess.run(["docker", "cp", f"{self.name}:/state/{f}", str(dest / f)], capture_output=True)
+        if not (dest / "db.sqlite3").exists():
+            summary = "no database (the node never created one)\n"
+        else:
+            conn = sqlite3.connect(dest / "db.sqlite3")
+            try:
+                one = lambda q: conn.execute(q).fetchall()  # noqa: E731
+                summary = (f"latest_processed: {one('select block from latest_processed')}\n"
+                           f"epochs (number, input_index_boundary): {one('select epoch_number, input_index_boundary from epochs order by epoch_number')}\n"
+                           f"inputs per epoch: {one('select epoch_number, count(*) from inputs group by epoch_number')}\n"
+                           f"settled epochs: {one('select epoch_number from settlement_info order by epoch_number')}\n")
+            finally:
+                conn.close()
+        (dest / "summary.txt").write_text(summary)
+        return summary
+
     def remove(self):
         subprocess.run(["docker", "rm", "-f", self.name], capture_output=True)
         subprocess.run(["docker", "volume", "rm", "-f", self.volume], capture_output=True)
