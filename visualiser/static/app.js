@@ -267,7 +267,7 @@ function nodeSummary(app, ov) {
 
 function appRibbon(app, ov) {
   const nodes = app.nodes;
-  const lanes = h("div", { class: "lanes" }, h("span", {}, "Chain"));
+  const lanes = h("div", { class: "lanes" }, h("span", {}, "Epochs"));
   const cols = h("div", { class: "cols" }, app.epochs.map((e) => {
     const [label, cls] = CHAIN_STATUS[e.status] || [e.status, "s-idle"];
     const behind = nodes.filter((id) => nodeBehind(e, e.nodes[id]));
@@ -301,7 +301,7 @@ function legend() {
   const row = (title, items) => h("div", { class: "legend" }, h("b", {}, title),
     items.map(([t, c]) => h("span", {}, h("i", { class: c }), t)));
   return h("div", { class: "legends" },
-    row("Chain lane", [["Collecting inputs", "s-open"], ["Sealed", "s-sealed"], ["In dispute", "s-disputed"],
+    row("Epochs", [["Collecting inputs", "s-open"], ["Sealed", "s-sealed"], ["In dispute", "s-disputed"],
       ["Winner decided", "s-work"], ["Staged", "s-staged"], ["Accepted", "s-accepted"], ["No winner", "s-failed"]]),
     h("div", { class: "legend" }, h("span", {}, h("i", { style: "box-shadow:inset 0 0 0 1px var(--bad)" }),
       "Chain and nodes disagree"),
@@ -545,9 +545,13 @@ function track(t, head) {
   const rows = t.matches;
   const w = t.window;
   const starts = [t.created_block, w ? w.start : null].filter((x) => x !== null);
-  const ends = [head, w ? w.close : null, ...rows.map((m) => m.eliminable_at || 0), ...rows.map((m) => (m.deleted ? m.deleted.block : 0))];
+  // A finished tournament is drawn up to where it finished, not up to the current block,
+  // so an old epoch's dispute is not squeezed into a sliver on the left.
+  const finished = t.finished_at && rows.every((m) => m.deleted) ? t.finished_at : null;
+  const last = finished ?? head;
+  const ends = [last, w ? w.close : null, ...rows.map((m) => (m.deleted ? m.deleted.block : finished ? 0 : m.eliminable_at || 0))];
   const x0 = Math.min(...starts);
-  const x1 = Math.max(...ends) + 2;
+  const x1 = Math.max(...ends) + Math.max(2, Math.round((Math.max(...ends) - x0) * 0.03));
   const width = 1000, left = 64, right = 16, rowH = 22, top = 34;
   const height = top + Math.max(1, rows.length) * rowH + 18;
   const X = (b) => left + ((b - x0) / Math.max(1, x1 - x0)) * (width - left - right);
@@ -558,7 +562,7 @@ function track(t, head) {
   for (let b = Math.ceil(x0 / step) * step; b <= x1; b += step) {
     g.append(svg("text", { x: X(b), y: height - 1, "text-anchor": "middle" }, b));
   }
-  const clash = w && Math.abs(X(w.close) - X(head)) < 150;   // labels would overlap: put "now" on its own line
+  const clash = w && Math.abs(X(w.close) - X(last)) < 150;   // labels would overlap: put the marker on its own line
   if (w) g.append(svg("text", { x: X(w.close), y: 11, "text-anchor": "end" }, `joins close ${w.close}`));
   rows.forEach((m, i) => {
     const y = top + i * rowH;
@@ -571,8 +575,10 @@ function track(t, head) {
       g.append(svg("path", { class: "deadline", d: `M${x} ${y + 1} l6 6 l-6 6 l-6 -6 z` }, svg("title", {}, `eliminable at block ${m.eliminable_at}`)));
     }
   });
-  g.append(svg("line", { class: "now", x1: X(head), x2: X(head), y1: top - 10, y2: height - 12 }));
-  g.append(svg("text", { x: X(head) + 4, y: clash ? 23 : 11 }, `now ${head}`));
+  const nearEdge = X(last) > width - right - 90;               // flip the label left so it is not clipped
+  g.append(svg("line", { class: "now", x1: X(last), x2: X(last), y1: top - 10, y2: height - 12 }));
+  g.append(svg("text", { x: X(last) + (nearEdge ? -4 : 4), y: clash ? 23 : 11, "text-anchor": nearEdge ? "end" : "start" },
+    finished ? `finished ${finished}` : `now ${head}`));
   return h("div", { class: "track" }, g);
 }
 

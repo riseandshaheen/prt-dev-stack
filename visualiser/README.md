@@ -81,7 +81,7 @@ Environment variables override the file: `VIS_CONFIG`, `VIS_HOST`, `VIS_PORT`, `
 
 ## What you see
 
-- **Overview.** Alerts first, then every app as an epoch ribbon: one lane for the chain and one per node. A column outlined in red with a notch is an epoch where the chain and nodes disagree. Below that, each node's health and how far it is behind finalized.
+- **Overview.** Alerts first, then every app as a row of epochs, coloured by their status on chain. A red outline marks an epoch where the chain and nodes disagree; a dot marks one a node has not caught up on. Under the row, one line per node ("✓", "N blocks behind", "down"). Below that, each node's health and how far it is behind finalized.
 - **App.** Contract facts, how each node sees the app, the epoch table with every node's status side by side, and the full transaction ledger.
 - **Epoch.** Four tabs:
   - Dispute: the tournament tree (root, matches, inner tournaments), a timeline on the block axis, and each commitment's clock.
