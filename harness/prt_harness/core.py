@@ -263,7 +263,7 @@ class Harness:
         (folder / "result.json").write_text(json.dumps(r.__dict__, indent=2, default=str))
         (folder / "timeline.json").write_text(json.dumps(self.timeline, indent=2))
         (folder / "ledger.json").write_text(json.dumps(
-            [{k: t[k] for k in ("block", "position", "hash", "from", "to", "function", "ok", "revert")}
+            [{k: t[k] for k in ("block", "position", "hash", "from", "to", "function", "ok", "revert", "gas_limit", "gas_used", "gas_price")}
              | {"node": stack.NODE_OF.get(t["from"])} for t in getattr(self, "ledger", [])], indent=2))
         for node in NODES:
             (folder / f"{node}.log").write_text(stack.logs_since(node, r.started_at - 5))

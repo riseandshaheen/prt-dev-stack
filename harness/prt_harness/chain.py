@@ -98,7 +98,10 @@ class Chain(Eth):
                 entry = {"block": number, "position": position, "hash": tx["hash"],
                          "from": tx["from"].lower(), "to": (tx.get("to") or "").lower(),
                          "function": abi.function_name(tx.get("input")), "input": tx.get("input"),
-                         "ok": ok, "revert": None, "logs": rc.get("logs", []) if isinstance(rc, dict) else []}
+                         "ok": ok, "revert": None, "logs": rc.get("logs", []) if isinstance(rc, dict) else [],
+                         "gas_limit": int(tx.get("gas", "0x0"), 16),
+                         "gas_used": int(rc["gasUsed"], 16) if isinstance(rc, dict) else None,
+                         "gas_price": int(rc.get("effectiveGasPrice") or "0x0", 16) if isinstance(rc, dict) else None}
                 if not ok:
                     entry["revert"] = self.revert_reason(tx, number)
                 out.append(entry)
