@@ -288,8 +288,6 @@ tr.flag td { background: color-mix(in srgb, var(--bad) 10%, transparent); }
 .meter { display: flex; gap: 2px; height: 8px; max-width: 360px; }
 .meter span { flex: 1; background: var(--idle); border-radius: 1px; }
 .meter span.done { background: var(--dispute); }
-.events li { display: grid; grid-template-columns: 70px 1fr auto; gap: 12px; padding: 7px 0; border-top: 1px solid color-mix(in srgb, var(--rule) 55%, transparent); font-size: var(--step--1); }
-.events { list-style: none; margin: 0; padding: 0; }
 
 .bad { color: var(--bad); }
 .ok { color: var(--ok); }

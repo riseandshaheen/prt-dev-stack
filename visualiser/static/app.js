@@ -450,7 +450,7 @@ function epochSummary(e, data) {
   if (e.staged) rows.push(["Staged", h("span", {}, `block ${e.staged.block} by `, who(e.staged.by))]);
   if (e.staging_ends_at && !e.accepted) rows.push(["Staging period ends", `block ${e.staging_ends_at}, in ${plural(e.staging_blocks_left, "block")}`]);
   if (e.accepted) rows.push(["Accepted", h("span", {}, `block ${e.accepted.block} by `, who(e.accepted.by))]);
-  for (const c of e.sentry_claims) rows.push([`Sentry ${c.sentry_id} claim`, h("span", {}, who(c.sentry), " ", hash(c.state),
+  for (const c of e.sentry_claims) rows.push([c.sentry_id != null ? `Sentry ${c.sentry_id} claim` : "Sentry claim", h("span", {}, who(c.sentry), " ", hash(c.state),
     c.agrees === false ? h("span", { class: "bad" }, " disagrees with the staged result") : c.agrees ? h("span", { class: "ok" }, " agrees") : "")]);
   if (e.tournament) rows.push(["Root tournament", hash(e.tournament)]);
   return facts(rows);
@@ -522,7 +522,6 @@ function tournament(t, head, isRoot) {
     t.matches.length ? h("h3", { style: "margin:18px 0 4px" }, plural(t.matches.length, "match").replace("matchs", "matches")) : null,
     t.matches.map((m, i) => match(m, i, t, head)),
     t.bonds.length || t.refunds.length ? h("div", { style: "margin-top:14px" }, bonds(t)) : null,
-    isRoot ? h("details", { style: "margin-top:18px" }, h("summary", {}, `Event history (${t.events.length})`), eventsList(t.events)) : null,
   );
 }
 
@@ -632,11 +631,6 @@ function bonds(t) {
         h("td", {}, fmtEth(b.payment)), h("td", {}, `burned ${fmtEth(b.burned)}`))),
       t.refunds.map((r) => h("tr", {}, h("td", { class: "num" }, r.block), h("td", {}, "Gas refund"), h("td", {}, who(r.recipient)),
         h("td", {}, fmtEth(r.value)), h("td", {}, r.success ? "paid" : h("span", { class: "bad" }, "failed")))))));
-}
-
-function eventsList(events) {
-  return h("ol", { class: "events" }, [...events].reverse().map((ev) =>
-    h("li", {}, h("span", { class: "mono" }, ev.block), h("span", {}, ev.summary), who(ev.by))));
 }
 
 /* ------------------------------------------------------------ ledger */

@@ -233,7 +233,7 @@ class Model:
             "sealed": self._stamp(e["sealed"]) if e else None,
             "staged": self._stamp(e["staged"], state=e["staged"]["state"]) if e and e["staged"] else None,
             "accepted": self._stamp(e["accepted"]) if e and e["accepted"] else None,
-            "sentry_claims": [dict(self._stamp(c), sentry=self.who(c["sentry"]), state=c["state"],
+            "sentry_claims": [dict(self._stamp(c), sentry_id=c.get("sentry_id"), sentry=self.who(c["sentry"]), state=c["state"],
                                    agrees=(c["state"] == e["staged"]["state"]) if e and e["staged"] else None)
                               for c in (e["sentry_claims"] if e else [])],
         }
