@@ -11,6 +11,7 @@ from .config import NodeConfig
 from .eth import JsonRpc, RpcError
 
 PAGE = 1000
+TESTED_REFERENCE = "rollups-node v2.0.0-alpha.13"
 FINAL_EPOCH = {"CLAIM_ACCEPTED", "CLAIM_REJECTED", "CLAIM_FORECLOSED"}
 
 
@@ -37,11 +38,20 @@ class ReferenceSource:
     def reset(self) -> None:
         self.apps_state = {}
 
+    def _call(self, method: str, params=None):
+        try:
+            return self.rpc.call(method, params)
+        except RpcError as exc:
+            if exc.code == -32601:  # method not found: a different rollups-node API
+                raise RpcError(f"reference node has no {method} (this visualiser is built for "
+                               f"{TESTED_REFERENCE})", exc.code) from exc
+            raise
+
     def _list(self, method: str, params: dict) -> list[dict]:
         rows: list[dict] = []
         offset = 0
         while True:
-            reply = self.rpc.call(method, dict(params, limit=PAGE, offset=offset))
+            reply = self._call(method, dict(params, limit=PAGE, offset=offset))
             data = reply.get("data", []) if isinstance(reply, dict) else (reply or [])
             rows.extend(data)
             total = (reply.get("pagination") or {}).get("total_count") if isinstance(reply, dict) else None
@@ -50,7 +60,7 @@ class ReferenceSource:
                 return rows
 
     def poll(self) -> dict:
-        info = self.rpc.call("cartesi_getNodeInfo") or {}
+        info = self._call("cartesi_getNodeInfo") or {}
         if isinstance(info, dict) and "data" in info and "version" not in info:
             info = info["data"]
         apps = []

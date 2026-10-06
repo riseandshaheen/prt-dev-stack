@@ -1,4 +1,4 @@
-// PRT stack visualiser. Every node is built with textContent: chain data never becomes markup.
+// PRT Dev Stack visualiser. Every node is built with textContent: chain data never becomes markup.
 "use strict";
 
 const main = document.getElementById("main");
@@ -157,10 +157,10 @@ async function refresh() {
 }
 
 function titleFor(r, ov) {
-  const chain = ov && ov.chain ? `chain ${ov.chain.id}` : "PRT stack";
+  const chain = ov && ov.chain ? `chain ${ov.chain.id}` : "PRT Dev Stack";
   if (r.view === "epoch") return `Epoch ${r.epoch} · ${chain}`;
   if (r.view === "app") return `${short(r.app, 4)} · ${chain}`;
-  return `PRT stack · ${chain}`;
+  return `PRT Dev Stack · ${chain}`;
 }
 
 /* ------------------------------------------------------------ top bar */
@@ -200,15 +200,16 @@ function staleCheck() {
 function viewOverview(ov) {
   const critical = ov.alerts.filter((a) => a.level === "critical").length;
   const warnings = ov.alerts.filter((a) => a.level === "warning").length;
+  // Only say something under the heading when there is something to act on.
   const lead = ov.apps.length === 0
     ? "No applications found yet. Register one with a node, or list it under apps in the config."
     : critical || warnings
       ? [critical ? plural(critical, "critical problem") : null, warnings ? plural(warnings, "warning") : null]
           .filter(Boolean).join(", ") + "."
-      : "Every node agrees on every settled epoch.";
+      : null;
   return h("div", {},
-    h("div", { class: "head" }, h("h1", {}, `${plural(ov.apps.length, "application")} on chain ${ov.chain.id ?? "?"}`)),
-    h("p", { class: critical ? "bad" : "muted", style: "margin:-8px 0 18px" }, lead),
+    h("div", { class: "head" }, h("h1", {}, `Applications (${ov.apps.length})`)),
+    lead ? h("p", { class: critical ? "bad" : "muted", style: "margin:-8px 0 18px" }, lead) : null,
     ov.alerts.length ? h("ul", { class: "alerts" }, ov.alerts.slice(0, 12).map(alertItem)) : null,
     h("section", {}, h("div", { class: "apps" }, ov.apps.map((app) => appRibbon(app, ov))), legend()),
     h("section", {}, h("div", { class: "head" }, h("h2", {}, "Nodes")), nodesTable(ov.nodes)),
@@ -303,9 +304,8 @@ function legend() {
     row("Chain lane", [["Collecting inputs", "s-open"], ["Sealed", "s-sealed"], ["In dispute", "s-disputed"],
       ["Winner decided", "s-work"], ["Staged", "s-staged"], ["Accepted", "s-accepted"], ["No winner", "s-failed"]]),
     h("div", { class: "legend" }, h("span", {}, h("i", { style: "box-shadow:inset 0 0 0 1px var(--bad)" }),
-      "Red outline: the chain and nodes disagree"),
-      h("span", {}, h("i", { class: "dot" }), "Dot: a node is behind the chain on that epoch")),
-    h("p", { class: "faint", style: "font-size:var(--step--1)" }, "Each node's status per epoch is on the app page."));
+      "Chain and nodes disagree"),
+      h("span", {}, h("i", { class: "dot" }), "A node is behind the chain")));
 }
 
 function nodesTable(nodes) {

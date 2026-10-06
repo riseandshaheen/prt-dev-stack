@@ -99,7 +99,10 @@ class Eth(JsonRpc):
                 logs.extend(self.call("eth_getLogs", [params]) or [])
                 cursor = upper + 1
             except RpcError as exc:
-                if exc.code in self.RANGE_ERRORS and span > 1:
+                # Providers reject oversized ranges with many different codes (dRPC 35, Cloudflare
+                # -32047, ...). Any error the provider answered with is worth a smaller range; a
+                # network error (no code) is not. A one-block range that still fails is real.
+                if span > 1 and (exc.code in self.RANGE_ERRORS or exc.code is not None):
                     span = max(1, span // 2)
                     continue
                 raise

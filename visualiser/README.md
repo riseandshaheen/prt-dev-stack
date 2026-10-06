@@ -1,4 +1,4 @@
-# PRT stack visualiser
+# PRT Dev Stack visualiser
 
 One read-only view of the chain and every node on it. It answers two questions on every screen: do the nodes agree with each other and with the chain, and what is the dispute doing right now.
 
@@ -9,6 +9,39 @@ It reads three kinds of source and never writes to any of them:
 | Chain (Anvil) | JSON-RPC | Epochs, inputs, tournaments at every level, live clocks and bisection height, every transaction to the app's contracts with revert reasons |
 | Sling nodes | Their SQLite state, opened read-only | Epoch boundaries, computed final state and commitment, stored inputs, dispute progress |
 | Reference nodes | Their JSON-RPC API | Epoch and input status, machine hash and commitment, outputs and reports, app state and failure reason |
+
+## Works with
+
+Tested with these versions. Other versions may work; when one differs, the overview says so instead of failing silently.
+
+| Part | Tested | What it depends on |
+| --- | --- | --- |
+| Chain | Anvil 1.4.3; any EVM JSON-RPC | Standard `eth_*` calls only. `finalized` is optional (falls back to `latest`). Revert reasons need historical state (an archive node or Anvil); without it they show as undecoded. |
+| Contracts | Dave v3 (`v3.0.0-alpha.5`), rollups-contracts `v3.0.0-alpha.10` | Event and function ABIs in `vis/abi.json`. Other contract versions: regenerate it (see "When contracts change"). |
+| Sling | dave `v3.0.0-alpha.5` (`node_version 2.0.0`) | Its SQLite file on the same machine: a path, or a local container read with `docker cp`. A different schema shows the node as down with "schema is not the one this visualiser reads". |
+| Reference node | rollups-node `v2.0.0-alpha.13` | Its JSON-RPC (`cartesi_*` methods), local or remote. A missing method shows as "reference node has no cartesi_…". |
+| History | A few tens of thousands of blocks | It indexes every block from each app's deployment into memory, and again after each restart. Long or public chains will be slow. |
+
+## Use it with your own stack
+
+1. Copy `visualiser.example.json` to `visualiser.json` and keep only what you run:
+   - `chain.rpc`: your Anvil or other RPC.
+   - `chain.dave_app_factory`: your Dave app factory, to list every app it deployed (optional).
+   - one entry per node. A sling needs `db` (path to its `db.sqlite3`) or `container` (its container name, on this machine). A reference node needs `rpc`.
+   - `accounts` on each node: its signer addresses, so its transactions are named in the ledger.
+   - `app_names` and `labels`: names for apps and other addresses (an input sender, a sybil).
+   - `optional: true` on any node you sometimes stop.
+2. `python3 server.py visualiser.json` and open `http://127.0.0.1:8787`.
+3. Check the top bar: every node should be green. If one is not, its pill and the Nodes table say why:
+
+| You see | It means |
+| --- | --- |
+| `Sling down: … does not exist` / `docker cp … failed` | Wrong `db` path or container name, or the container is on another machine. |
+| `schema is not the one this visualiser reads` | Your sling is a different dave version. |
+| `reference node has no cartesi_…` / `cannot reach …` | Different rollups-node version, or wrong `rpc` URL. |
+| `runs version X; this visualiser is tested with Y` | It runs, but some panels may be empty or wrong. |
+| `No node follows this app` | An app the factory or `apps` list knows about that none of your nodes is configured for. |
+| Ledger shows `reverted` with no reason | Your RPC has no historical state for that block. |
 
 ## Run it
 

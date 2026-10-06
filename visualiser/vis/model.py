@@ -18,6 +18,7 @@ from .chain import BOND, PHASES, STANDINGS, ChainIndex
 
 ZERO32 = "0x" + "0" * 64
 LAG_WARN = 10  # blocks behind finalized before a node is called lagging
+TESTED_VERSIONS = {"sling": {"2.0.0"}, "reference": {"2.0.0-alpha.13"}}  # node versions this build reads correctly
 NOTICE_TTL = 30 * 60  # chain notices (reorgs, rewinds) drop off the overview after this many seconds
 
 
@@ -491,6 +492,11 @@ class Model:
                           if s in self._slings(app["address"]) or any(s is r for r, _ in self._refs(app["address"]))],
             })
         for n in nodes:
+            tested = TESTED_VERSIONS.get(n["kind"], set())
+            if n["version"] and tested and n["version"] not in tested:
+                alerts.append({"level": "warning", "node": n["id"],
+                               "text": f"{n['label']} runs version {n['version']}; this visualiser is tested with "
+                                       f"{', '.join(sorted(tested))}. Some panels may be empty or wrong."})
             if n["status"] == "off":
                 continue
             if n["status"] == "down":

@@ -1,5 +1,8 @@
 {
-  "listen": { "host": "0.0.0.0", "port": 8787 },
+  "listen": {
+    "host": "0.0.0.0",
+    "port": 8787
+  },
   "chain": {
     "rpc": "http://host.docker.internal:8545",
     "poll_seconds": 3,
@@ -11,7 +14,9 @@
       "kind": "sling",
       "label": "Sling",
       "db": "/state/sling/db.sqlite3",
-      "accounts": ["0x14dC79964da2C08b23698B3D3cc7Ca32193d9955"]
+      "accounts": [
+        "0x14dC79964da2C08b23698B3D3cc7Ca32193d9955"
+      ]
     },
     {
       "id": "reference",
@@ -24,5 +29,7 @@
       ]
     }
   ],
-  "labels": {}
+  "labels": {
+    "0x70997970C51812dc3A010C7d01b50e0d17dc79C8": "Anvil 1 (inputs)"
+  }
 }

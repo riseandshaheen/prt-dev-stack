@@ -21,6 +21,9 @@ from pathlib import Path
 from .config import NodeConfig
 
 
+TESTED_SLING = "dave v3.0.0-alpha.5 (node_version 2.0.0)"
+
+
 class SlingSource:
     kind = "sling"
 
@@ -69,6 +72,12 @@ class SlingSource:
                 conn.row_factory = sqlite3.Row
                 self.state = self._read(conn)
                 return self.state
+            except sqlite3.OperationalError as exc:
+                if "no such table" in str(exc) or "no such column" in str(exc):
+                    raise RuntimeError(f"sling database schema is not the one this visualiser reads "
+                                       f"(built for {TESTED_SLING}): {exc}") from exc
+                last_error = exc  # locked or mid-write; try again
+                time.sleep(0.2 * (attempt + 1))
             except sqlite3.DatabaseError as exc:
                 last_error = exc  # torn copy or a write in flight; try again
                 time.sleep(0.2 * (attempt + 1))
@@ -124,13 +133,17 @@ class SlingSource:
                 "size": len(blob), "sha256": hashlib.sha256(blob).hexdigest(),
             }
 
-        events = {row["t"].lower() if row["t"].startswith("0x") else "0x" + row["t"].lower(): row["n"]
-                  for row in conn.execute("SELECT root_tournament AS t, count(*) AS n FROM tournament_events GROUP BY 1")}
-        watermarks = {row["t"].lower() if row["t"].startswith("0x") else "0x" + row["t"].lower(): row["b"]
-                      for row in conn.execute("SELECT root_tournament AS t, finalized_block AS b "
-                                              "FROM tournament_events_watermark")}
-        tree_nodes = {row["epoch"]: row["n"] for row in conn.execute(
-            "SELECT epoch, count(*) AS n FROM sling_nodes GROUP BY epoch")}
+        def optional(sql):  # detail tables: a sling without them still shows epochs and settlements
+            try:
+                return conn.execute(sql).fetchall()
+            except sqlite3.OperationalError:
+                return []
+        hexkey = lambda t: t.lower() if t.startswith("0x") else "0x" + t.lower()  # noqa: E731
+        events = {hexkey(r["t"]): r["n"] for r in optional(
+            "SELECT root_tournament AS t, count(*) AS n FROM tournament_events GROUP BY 1")}
+        watermarks = {hexkey(r["t"]): r["b"] for r in optional(
+            "SELECT root_tournament AS t, finalized_block AS b FROM tournament_events_watermark")}
+        tree_nodes = {r["epoch"]: r["n"] for r in optional("SELECT epoch, count(*) AS n FROM sling_nodes GROUP BY epoch")}
 
         mtime = None
         if self.cfg.db:

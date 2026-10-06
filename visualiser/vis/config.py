@@ -7,15 +7,15 @@ import os
 from dataclasses import dataclass, field
 from pathlib import Path
 
-DEFAULT_LABELS = {
-    "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266": "Anvil 0 (reference claims)",
-    "0x70997970c51812dc3a010c7d01b50e0d17dc79c8": "Anvil 1 (inputs)",
-    "0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc": "Anvil 2 (tests)",
+DEFAULT_LABELS = {  # Anvil's default accounts; roles come from each node's `accounts` and `labels`
+    "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266": "Anvil 0",
+    "0x70997970c51812dc3a010c7d01b50e0d17dc79c8": "Anvil 1",
+    "0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc": "Anvil 2",
     "0x90f79bf6eb2c4f870365e785982e1f101e93b906": "Anvil 3",
     "0x15d34aaf54267db7d7c367839aaf71a00a2c6a65": "Anvil 4",
     "0x9965507d1a55bcc2695c58ba16fb37d819b0a4dc": "Anvil 5",
-    "0x976ea74026e726554db657fa54763abd0c3a0aa9": "Anvil 6 (reference PRT)",
-    "0x14dc79964da2c08b23698b3d3cc7ca32193d9955": "Anvil 7 (sling, sentry)",
+    "0x976ea74026e726554db657fa54763abd0c3a0aa9": "Anvil 6",
+    "0x14dc79964da2c08b23698b3d3cc7ca32193d9955": "Anvil 7",
     "0x23618e81e3f5cdf7f54c3d65f7fbc0abf5b21e8f": "Anvil 8",
     "0xa0ee7a142d267c1f36714e4a8f75612f20a79720": "Anvil 9",
 }
@@ -138,5 +138,7 @@ def _labels(raw: dict, nodes: list[NodeConfig]) -> dict[str, str]:
     labels.update({k.lower(): v for k, v in raw.get("labels", {}).items()})
     for node in nodes:
         for account in node.accounts:
+            if labels.get(account.lower(), "").startswith("Anvil ") and account.lower() not in raw.get("labels", {}):
+                labels[account.lower()] = f"{labels[account.lower()]} ({node.label})"
             labels.setdefault(account.lower(), node.label)
     return labels

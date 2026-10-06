@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""PRT stack visualiser: one read-only view of the chain and every node on it.
+"""PRT Dev Stack visualiser: one read-only view of the chain and every node on it.
 
     python3 server.py                       # env-var defaults, same as the old script
     VIS_CONFIG=visualiser.json python3 server.py

@@ -39,7 +39,8 @@
     }
   ],
   "labels": {
-    "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC": "Sybil runner (account 2)"
+    "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC": "Sybil runner (account 2)",
+    "0x70997970C51812dc3A010C7d01b50e0d17dc79C8": "Anvil 1 (inputs)"
   },
   "ledger_limit": 20000,
   "app_names": {
