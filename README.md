@@ -13,3 +13,8 @@ The sling image stays named `sling-node`. `rollups-node:2.0.0-alpha.13` packages
 The echo machine is a [release tarball](https://github.com/riseandshaheen/prt-dev-stack/releases/tag/echo-c8217d7f), not a dave clone. See [echo/README.md](echo/README.md).
 
 Walkthrough: [docs/quickstart-macos.md](docs/quickstart-macos.md).
+
+## Harness
+
+[`harness/`](harness/README.md) is a break-testing harness for this stack. It takes over mining, drives both nodes through epochs, disputes and faults (races, sentry paths, reorgs, chain resets, RPC faults through a proxy, dave's Lua sybil as the adversary), and checks after every block that chain, sling and the reference node agree. Its scenarios follow [test-design-claude.md](test-design-claude.md) and reproduce claims from [qa-slingnode-v0](https://github.com/Mugen-Builders/qa-slingnode-v0). Write-ups are in [`harness/reports/`](harness/reports/).
+
