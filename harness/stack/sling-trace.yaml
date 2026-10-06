@@ -1,0 +1,5 @@
+# Raise the sling's log level for one module, e.g. RUST_LOG=info,cartesi_rollups_prt_node::provider=trace
+services:
+  node:
+    environment:
+      RUST_LOG: ${RUST_LOG:-info}
