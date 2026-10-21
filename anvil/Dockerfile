@@ -1,8 +1,8 @@
-# Foundry Anvil 1.4.3. Newer Anvil will not load state.json.
+# Foundry Anvil 1.5.1, the version that wrote the dave v3.0.0-alpha.6 devnet state.json.
 FROM debian:trixie-slim
 
 ARG TARGETARCH
-ARG FOUNDRY_VERSION=1.4.3
+ARG FOUNDRY_VERSION=1.5.1
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends ca-certificates curl \

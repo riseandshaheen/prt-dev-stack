@@ -6,3 +6,4 @@ harness/**/__pycache__/
 harness/stack/*.log
 # unposted drafts for the QA repo; kept local until reviewed
 harness/reports/github-drafts/
+old-alpha5/
