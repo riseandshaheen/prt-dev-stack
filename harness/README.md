@@ -50,13 +50,38 @@ Results are written up in `reports/`.
 
 To rebuild, run `docker compose down -v` in `sling/` and `reference/`, restart Anvil, then follow the quickstart from step 3.
 
-R5 and R5b need dave's sybil runner image. From a dave checkout at `v3.0.0-alpha.5`:
+## Sybil runner (dave v3.0.0-alpha.6)
+
+Dispute scenarios (R5, R5b, MULTISYBIL and the funds-safety plan's C/D3/E cases) need an adversary that builds and plays PRT commitments: dave's Lua client. The alpha.6 release removed `test/Dockerfile`, so the image is built here from the release tree alone, on top of the Cartesi Machine 0.22.0 image (which ships the `cartesi` Lua 5.4 bindings the client needs), plus `cast` (taken from the stack's `sling-anvil:1.5.1` image) and `jq`, which the client shells out to. No Rust node, devnet or test programs: 617 MB, builds in under a minute.
 
 ```sh
-docker build -f test/Dockerfile --build-arg DAVE_EMULATOR_GITLINK=$(git rev-parse :machine/emulator) -t prt-harness/sybil-runner:3.0.0-alpha.5 .
+B=$(mktemp -d) && mkdir -p "$B/dave"
+git -C /path/to/dave archive v3.0.0-alpha.6 prt/client-lua test/e2e prt/contracts/src cartesi-rollups/contracts/src | tar -x -C "$B/dave"
+# optional: the compiled ABIs the client's event-layout check reads (from a `just build-smart-contracts` tree)
+cp -r /path/to/dave/prt/contracts/out/{ITournament,Tournament,MultiLevelTournamentFactory}.sol "$B/dave/prt/contracts/out/" 2>/dev/null
+cp harness/sybil/Dockerfile "$B/" && docker build -t prt-harness/sybil-runner:3.0.0-alpha.6 "$B"
 ```
 
-The image is 5.2 GB and the build cache is 11 GB more; run `docker builder prune` afterwards. `harness/sybil/sybil.lua` drives dave's own Lua sybil against this Anvil. It replays every sealed epoch from the template first, which also checks both nodes' commitments against a third implementation.
+Or pull the published build (same recipe, linux/arm64 only, like the rest of this stack) and give it the local name the harness uses:
+
+```sh
+docker pull ghcr.io/riseandshaheen/sybil-runner:3.0.0-alpha.6
+docker tag ghcr.io/riseandshaheen/sybil-runner:3.0.0-alpha.6 prt-harness/sybil-runner:3.0.0-alpha.6
+```
+
+`harness/sybil/sybil.lua` is the player: it replays every sealed epoch of an app from its template with the Lua oracle (which also cross-checks the sling's root commitment against a second implementation), then joins the epoch's tournament with a patched commitment and plays dave's honest strategy with it. It takes the deployed table from the chain (alpha.6 devnet: `log2step [38, 0]`, `height [54, 38]`), steers the dispute onto a chosen transition with one patch per level (`TRANSITION`), can claim a wrong but provable post-epoch state (`WRONG_FINAL=1`), play inside a child tournament (`TOURNAMENT`), or join the honest commitment and go quiet (`MODE=honest`, a claimer-slot adversary). `prt_harness/sybil.py` wraps it (`Sybil(epoch, player, mode, transition, ...)`). `harness/sybil/validity_proof.lua` prints the `MachineValidityProof` for any stored machine, so a third party can `stageTournamentResult` without a node. The runner mounts the machine template read-only and writes its snapshots to a 6 GB tmpfs; account keys are Anvil's dev keys by index (`PLAYER`).
+
+Run one by hand against a tester-app instance (see `tester/README.md` for deploying one):
+
+```sh
+docker run --rm --tmpfs /tmp:rw,size=6g --add-host host.docker.internal:host-gateway \
+  -v "$PWD/harness/sybil:/harness:ro" -v "$PWD/tester/machine-image:/machine:ro" \
+  -e ENDPOINT=http://host.docker.internal:8545 -e INPUT_BOX=0xEbE9f4Dfc04ae10bBeE663859c3dc5A23f94eA3C \
+  -e APP=0x<app> -e CONSENSUS=0x<consensus> -e EPOCH=0 -e PLAYER=2 -e MODE=fight \
+  prt-harness/sybil-runner:3.0.0-alpha.6 /harness/sybil.lua
+```
+
+The harness owns the clock: the player never mines, so run a block ticker (one `anvil_mine` per second is dave's own e2e cadence). The old `prt-harness/sybil-runner:3.0.0-alpha.5` recipe (`docker build -f test/Dockerfile ...` from a dave checkout at that tag, 5.2 GB plus 11 GB of build cache) is superseded.
 
 ## Limits
 

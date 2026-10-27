@@ -1,0 +1,4 @@
+DaveConsensus (echo)	0x6A2E66b5F8d14237d8b858B987dC887bb4Df27cF
+Application (echo)	0x53563a918B43Ca40FD966Ea1f065072383f33DB7
+Application (qa-tester)	0xbd6536cb8df504acb6d0856029344e2b07608bde
+DaveConsensus (qa-tester)	0x993c46cbc50226319ea9668b235c7e7a5e708d64

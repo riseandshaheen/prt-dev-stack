@@ -7,3 +7,7 @@ harness/stack/*.log
 # unposted drafts for the QA repo; kept local until reviewed
 harness/reports/github-drafts/
 old-alpha5/
+tester/machine-image/
+tester/*.tar.gz
+tester/root.ext2
+tester/app.sqfs
