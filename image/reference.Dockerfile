@@ -1,9 +1,9 @@
 # Runtime image for the rollups reference node.
-# Installs the official v2.0.0-alpha.13 packages. It does not compile the node.
+# Installs the official v2.0.0-alpha.14 packages. It does not compile the node.
 FROM debian:trixie-20250811
 
-ARG ROLLUP_NODE_VERSION=2.0.0-alpha.13
-ARG EMULATOR_VERSION=0.21.0
+ARG ROLLUP_NODE_VERSION=2.0.0-alpha.14
+ARG EMULATOR_VERSION=0.22.0
 ARG TARGETARCH
 ARG NODE_RUNTIME_DIR=/var/lib/cartesi-rollups-node
 
@@ -14,11 +14,11 @@ RUN apt-get update \
 RUN set -eu \
  && case "$TARGETARCH" in \
       amd64) \
-        EMU_SHA=5f13034f43454c340062c677146daabe77c587cee1bd60342c95b8ad8f1463a3; \
-        NODE_SHA=5c75b12082bded69e589781715c74ce7ddf433a7ed2fa6f831e92315fa6dc003 ;; \
+        EMU_SHA=906ae4cd0524ef254ea9a83712e6ad353c36123acae21628fb93c1c47955429a; \
+        NODE_SHA=ba4d1f5780adc75c46f9f9e4fe53f19e62543a5754104172f0f6aa80a0063fc6 ;; \
       arm64) \
-        EMU_SHA=866f0bde2db53b9b8e6a6eac85e5ad4116338379fa25cdfcc5e4bf835f948bb1; \
-        NODE_SHA=ab4007baa7ea37ed58957fa94478c5f6e6999ca5234520bbfecb82e9c9c9bab3 ;; \
+        EMU_SHA=212710b5ad74e469368cd5f54b006eebde1e8620833acca5be9a845cf74ab2cc; \
+        NODE_SHA=d37c805f61b3149a418a933c656492775985c8e4a11c08e5a8dd9185900ac5a6 ;; \
       *) echo "unsupported architecture: $TARGETARCH"; exit 1 ;; \
     esac \
  && curl -fsSL -o /tmp/cartesi-machine-emulator.deb \
