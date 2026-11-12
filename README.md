@@ -23,7 +23,7 @@ Dave `v3.0.0-alpha.6` is a new deployment generation: every PRT address moved, t
 
 | Tag | Dave | Cartesi Machine | Anvil | Node images | Machines (GitHub releases) | Reference node |
 | --- | --- | --- | --- | --- | --- | --- |
-| [`stack-alpha6-m0.22`](https://github.com/riseandshaheen/prt-dev-stack/tree/stack-alpha6-m0.22) (current `main`) | `v3.0.0-alpha.6` | 0.22.0 | 1.5.1 (`sling-anvil:1.5.1`) | `sling-node:3.0.0-alpha.6` | echo [`echo-27715ccf`](https://github.com/riseandshaheen/prt-dev-stack/releases/tag/echo-27715ccf), qa-tester-app [`tester-f345a724`](https://github.com/riseandshaheen/prt-dev-stack/releases/tag/tester-f345a724) | none yet (no rollups-node release reads the alpha.6 contracts) |
+| [`stack-alpha6-m0.22`](https://github.com/riseandshaheen/prt-dev-stack/tree/stack-alpha6-m0.22) (current `main`) | `v3.0.0-alpha.6` | 0.22.0 | 1.5.1 (`sling-anvil:1.5.1`) | `sling-node:3.0.0-alpha.6`, `rollups-node:2.0.0-alpha.14` | echo [`echo-27715ccf`](https://github.com/riseandshaheen/prt-dev-stack/releases/tag/echo-27715ccf), qa-tester-app [`tester-f345a724`](https://github.com/riseandshaheen/prt-dev-stack/releases/tag/tester-f345a724) | `rollups-node:2.0.0-alpha.14`, both nodes on one Anvil |
 | [`stack-alpha5-m0.21`](https://github.com/riseandshaheen/prt-dev-stack/tree/stack-alpha5-m0.21) | `v3.0.0-alpha.5` | 0.21.0 | 1.4.3 (`sling-anvil:1.4.3`) | `sling-node:3.0.0-alpha.5`, `rollups-node:2.0.0-alpha.13` | echo [`echo-c8217d7f`](https://github.com/riseandshaheen/prt-dev-stack/releases/tag/echo-c8217d7f) | `rollups-node:2.0.0-alpha.13`, both nodes on one Anvil |
 
 All images are public under `ghcr.io/riseandshaheen/`. The dispute adversary for the current generation is `ghcr.io/riseandshaheen/sybil-runner:3.0.0-alpha.6` (see [harness/README.md](harness/README.md), "Sybil runner"). The machines are not in git; download them from the releases (each release's notes give the sha256, the template hash and the build recipe).
@@ -32,7 +32,11 @@ The devnet addresses are in [`anvil/deployments/31337/`](anvil/deployments/31337
 
 ## Reference node
 
-`reference/` still targets rollups-node `v2.0.0-alpha.13`, which is built against Dave `v3.0.0-alpha.5` contracts. It cannot read the alpha.6 deployment in this dump, so do not start it until a rollups-node release built against Dave `v3.0.0-alpha.6` exists. The alpha.5 stack (both nodes) is tag `stack-alpha5-m0.21`; `ghcr.io/riseandshaheen/sling-node:3.0.0-alpha.5`, `sling-anvil:1.4.3` and `rollups-node:2.0.0-alpha.13` stay published.
+`reference/` runs rollups-node [`v2.0.0-alpha.14`](https://github.com/cartesi/rollups-node/releases/tag/v2.0.0-alpha.14), the first release built against Dave `v3.0.0-alpha.6` contracts and Cartesi Machine v0.22. Its own devnet is the same `cartesi-rollups-prt-3.0.0-alpha.6-anvil-1.5.1` bundle as this dump, so it reads this deployment as is: register an app and it joins, stages and accepts that app's tournaments next to sling on the same Anvil. `ghcr.io/riseandshaheen/rollups-node:2.0.0-alpha.14` is built from [`image/reference.Dockerfile`](image/reference.Dockerfile), which installs the release `.deb` and emulator 0.22.0 and checks both SHA-256s.
+
+alpha.14 needs a new database and no alpha.13 snapshots, so if an alpha.13 reference stack ran here, `docker compose down` from `reference/` first; the node data volume has a new name (`node_data_alpha14`). It also refuses to start when the claimer and PRT signers are the same address; compose keeps them apart (accounts 0 and 6). Both stored machines here pass alpha.14's template check (`cartesi-machine --assert-rolling-template`).
+
+The alpha.5 stack (both nodes) is tag `stack-alpha5-m0.21`; `ghcr.io/riseandshaheen/sling-node:3.0.0-alpha.5`, `sling-anvil:1.4.3` and `rollups-node:2.0.0-alpha.13` stay published.
 
 The echo machine is a release tarball, not a dave clone. See [echo/README.md](echo/README.md).
 

@@ -1,4 +1,4 @@
-# Run sling on macOS
+# Run sling and the rollups reference node on macOS
 
 ## Index
 
@@ -7,7 +7,8 @@
 - [2. Get the echo machine](#2-get-the-echo-machine)
 - [3. Start Anvil](#3-start-anvil)
 - [4. Start the sling node](#4-start-the-sling-node)
-- [5. The reference node](#5-the-reference-node)
+- [5. Start the reference node](#5-start-the-reference-node)
+- [6. Register the same application](#6-register-the-same-application)
 - [A different machine](#a-different-machine)
 - [After an input](#after-an-input)
 - [Troubleshoot](#troubleshoot)
@@ -26,6 +27,7 @@ You do not need Foundry, dave, or an emulator install. Nothing here compiles the
 ```sh
 docker pull ghcr.io/riseandshaheen/sling-node:3.0.0-alpha.6
 docker pull ghcr.io/riseandshaheen/sling-anvil:1.5.1
+docker pull ghcr.io/riseandshaheen/rollups-node:2.0.0-alpha.14
 ```
 
 `sling-node:3.0.0-alpha.6` is the `cartesi-sling-node` binary from dave [v3.0.0-alpha.6](https://github.com/cartesi/dave/releases/tag/v3.0.0-alpha.6) (built from [`image/Dockerfile`](../image/Dockerfile)). It links Cartesi Machine v0.22.0.
@@ -42,7 +44,7 @@ curl -L -o echo-machine-image-rootfs-27715ccf.tar.gz \
 tar -xzf echo-machine-image-rootfs-27715ccf.tar.gz
 ```
 
-That writes `echo/machine-image-rootfs/`, stored by Cartesi Machine v0.22.0. The archive is about 121 MB. Compose defaults to `../echo/machine-image-rootfs` from `sling/`. The alpha.5 image (`echo-c8217d7f`) does not load in this node.
+That writes `echo/machine-image-rootfs/`, stored by Cartesi Machine v0.22.0. The archive is about 121 MB. Compose defaults to `../echo/machine-image-rootfs` from `sling/` and `reference/`. The alpha.5 image (`echo-c8217d7f`) does not load in this node.
 
 ## 3. Start Anvil
 
@@ -80,9 +82,40 @@ To start over, from `sling/`:
 docker compose down -v
 ```
 
-## 5. The reference node
+## 5. Start the reference node
 
-Not for this release. `reference/` runs rollups-node `v2.0.0-alpha.13`, which is built against Dave `v3.0.0-alpha.5` contracts and cannot read this dump's deployment. Leave it stopped until a rollups-node release built against Dave `v3.0.0-alpha.6` exists.
+`rollups-node:2.0.0-alpha.14` packages the official [rollups-node v2.0.0-alpha.14](https://github.com/cartesi/rollups-node/releases/tag/v2.0.0-alpha.14) `.deb` with Cartesi Machine v0.22.0 (built from [`image/reference.Dockerfile`](../image/reference.Dockerfile)). That release is built against Dave contracts `v3.0.0-alpha.6` and rollups-contracts `v3.0.0-alpha.10`, the same deployment as this dump.
+
+From `reference/`. Compose starts Postgres on host port 5433 and the node on `10011`. It reads Anvil at `http://host.docker.internal:8545`. Do not start the devnet that ships with rollups-node.
+
+```sh
+docker compose up -d
+```
+
+alpha.14 needs a new database: its schema changed and it has no migration from alpha.13. If an alpha.13 reference stack ran here, run `docker compose down` from `reference/` first. `docker compose down -v` also drops the node data volume; it does not touch Anvil or sling.
+
+Claims use Anvil account 0. PRT transactions use account 6. alpha.14 stops at startup if the two are the same address.
+
+## 6. Register the same application
+
+The application lives on the chain. `app register` only writes it into this node's Postgres.
+
+From `reference/`:
+
+```sh
+docker compose exec node cartesi-rollups-cli app register \
+  --address 0x53563a918B43Ca40FD966Ea1f065072383f33DB7 \
+  --template-path /machine \
+  --prt \
+  --name echo \
+  --print-json
+```
+
+The JSON has `"name":"echo"`, `"consensus_type":"PRT"` and `"status":"OK"`. The node loads the template, checks its identity and the PRT deployment (`PRT deployment assessment changed ... state=compatible`), then joins each sealed epoch's tournament from account 6. `docker compose exec node cartesi-rollups-cli app list` shows the application.
+
+For a different application, pass that address and mount its machine at `/machine` (`MACHINE_PATH=...`). alpha.14 sets an application `FAILED` if its template does not load; check a new machine first with `cartesi-machine --load=<dir> --assert-rolling-template`, which must stop at a manual `rx-accepted` yield.
+
+JSON-RPC is [http://127.0.0.1:10011/rpc](http://127.0.0.1:10011/rpc). Inspect is on port `10012`.
 
 ## A different machine
 
